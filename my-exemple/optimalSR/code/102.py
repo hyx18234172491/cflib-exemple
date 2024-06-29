@@ -26,6 +26,6 @@ if __name__ == '__main__':
         'compute2num': 'uint16_t',
     }
 
-    utils.log_ranging(link_uri=URI0, log_cfg_name='Statistic', log_save_path='../data/102-3-50ms-30loss-100s-1.csv',
+    utils.log_ranging(link_uri=URI0, log_cfg_name='Statistic', log_save_path='../data/102-1-50ms-30loss-100s-1.csv',
                       log_var=log_var, period_in_ms=50, keep_time_in_s=100)
 

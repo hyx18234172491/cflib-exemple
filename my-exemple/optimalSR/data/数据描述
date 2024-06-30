@@ -61,5 +61,22 @@
     - 携带最近3次时间戳
     - Tr,Rr buffer大小为3
     - 两架无人机均30%丢包，每次携带最新收到的时间戳
+    - 周期50ms
     - 连续采集100s数据
     - commit a9b992693c305e1f3ceb9ac252a2a9dc496f4a74 (HEAD -> origin/SR/optimal/test101, origin/origin/SR/optimal/test101)
+
+103-TrRrBuffer3-lastTimeStamp3-30loss-nolossDelay5-20ms-100s.csv
+    - 携带最近3次时间戳
+    - Tr,Rr buffer大小为3
+    - 采集数据无人机30%丢包，对方无人机processing delay5ms
+    - 周期20ms
+    - 连续采集100s数据
+    - commit c92e1ef5de23d1a49ee2cf4d6e173047ed56e4a3 (HEAD -> origin/SR/optimal/test1031, origin/origin/SR/optimal/test1031)
+
+103-TrRrBuffer1-lastTimeStamp3-30loss-nolossDelay5-20ms-100s.csv
+    - 携带最近3次时间戳
+    - Tr,Rr buffer大小为1
+    - 采集数据无人机30%丢包，对方无人机processing delay5ms
+    - 周期20ms
+    - 连续采集100s数据
+    - commit c92e1ef5de23d1a49ee2cf4d6e173047ed56e4a3 (HEAD -> origin/SR/optimal/test1031, origin/origin/SR/optimal/test1031)

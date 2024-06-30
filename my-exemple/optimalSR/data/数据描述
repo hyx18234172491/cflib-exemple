@@ -64,3 +64,11 @@
     - 周期20ms
     - 连续采集100s数据
     - commit b90c0bb79db0b7e478727a5c2c82a0c8e7140f3e (HEAD -> origin/SR/optimal/test1031, origin/origin/SR/optimal/test1031)
+
+104-TrRrBuffer3-lastTimeStamp3-30loss-30loss-50ms-100s.csv
+    - 携带最近3次发送时间戳
+    - Tr,Rr buffer大小为3
+    - 始终携带最新接收报文的时间戳
+    - 两架无人机均30%丢包
+    - 周期50ms
+    - 连续采集100s数据

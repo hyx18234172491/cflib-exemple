@@ -34,6 +34,18 @@
     - 连接log采集数据的无人机不丢包，另一架无人机30% 的丢包率
     - 连续采集100s数据
     - commit 864c07c1c07507334a1490b9a959137d0d87e4d0 (HEAD -> SR/optimal/test1021, origin/SR/optimal/test1021)
-    - 上面为采集数据的无人机代码
+    - 上面代码为采集数据的无人机代码
     - commit b9bb8fa8a4b5eedf16bb1ebe5197804ee5a800a5
-    - 上面为模拟30%丢包无人机代码
+    - 上面代码为模拟30%丢包无人机代码
+
+102-3-50ms-30loss-noloss-100s-2.csv - 有效
+    - 102：携带多次历史发送时间戳
+    - 携带了最近3次发送时间戳
+    - Tr,Rr buffer大小为3
+    - 两架均为50ms固定周期
+    - 连接log采集数据的无人机不丢包，另一架无人机30% 的丢包率
+    - 连续采集100s数据
+    - commit 864c07c1c07507334a1490b9a959137d0d87e4d0 (HEAD -> SR/optimal/test1021, origin/SR/optimal/test1021)
+    - 上面代码为采集数据的无人机代码
+    - commit b9bb8fa8a4b5eedf16bb1ebe5197804ee5a800a5
+    - 上面代码为模拟30%丢包无人机代码

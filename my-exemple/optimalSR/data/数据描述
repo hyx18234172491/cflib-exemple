@@ -49,3 +49,15 @@
     - 上面代码为采集数据的无人机代码
     - commit b9bb8fa8a4b5eedf16bb1ebe5197804ee5a800a5
     - 上面代码为模拟30%丢包无人机代码
+
+101-3-50ms-30loss-30loss-withoutLatestRx-100s-1.csv
+    - 携带最近3次时间戳
+    - Tr,Rr buffer大小为3
+    - 两架无人机均30%丢包，如果已经发送过接收的时间戳，则不会再次发送
+    - 连续采集100s数据
+
+101-3-50ms-30loss-30loss-withLatestRx-100s-1.csv
+    - 携带最近3次时间戳
+    - Tr,Rr buffer大小为3
+    - 两架无人机均30%丢包，每次携带最新收到的时间戳
+    - 连续采集100s数据

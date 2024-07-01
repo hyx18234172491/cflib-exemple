@@ -14,7 +14,7 @@ filtered_data = data_subtracted[data_subtracted['recvNum'] != 0]
 # Calculate ratios and adjust timestamps
 filtered_data['ratio1'] = filtered_data['compute1num'] / filtered_data['recvNum']
 filtered_data['ratio2'] = (filtered_data['compute1num'] + filtered_data['compute2num']) / filtered_data['recvNum']
-filtered_data['timestamp_seconds'] = filtered_data['timestamp'] / 100
+filtered_data['timestamp_seconds'] = filtered_data['timestamp'] / 1000
 
 # Load the second dataset
 new_file_path = '../data/104-TrRrBuffer1-lastTimeStamp1-30loss-30loss-50ms-100s.csv'

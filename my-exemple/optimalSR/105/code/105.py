@@ -193,12 +193,19 @@ def addLogConfig(scf, sequence):
 
 if __name__ == '__main__':
     log_var = {
-        'Statistic.recvSeq': 'uint16_t',
-        'Statistic.recvNum': 'uint16_t',
-        'Statistic.compute1num': 'uint16_t',
-        'Statistic.compute2num': 'uint16_t',
-        'Statistic.dist': 'int16_t',
-        'Statistic.distSrc': 'uint8_t',
+        'Statistic.recvSeq1': 'uint16_t',
+        'Statistic.recvNum1': 'uint16_t',
+        'Statistic.compute1num1': 'uint16_t',
+        'Statistic.compute2num1': 'uint16_t',
+        'Statistic.dist1': 'int16_t',
+        'Statistic.distSrc1': 'uint8_t',
+
+        'Statistic.recvSeq2': 'uint16_t',
+        'Statistic.recvNum2': 'uint16_t',
+        'Statistic.compute1num2': 'uint16_t',
+        'Statistic.compute2num2': 'uint16_t',
+        'Statistic.dist2': 'int16_t',
+        'Statistic.distSrc2': 'uint8_t',
     }
     # log_data = pd.DataFrame(columns=['logNumber',log_var.keys()])
     log_data = pd.DataFrame()

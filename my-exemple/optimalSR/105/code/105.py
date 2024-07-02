@@ -86,7 +86,7 @@ flight_duration = 20
 sequences.append([0, 0, 0, high, 0, flight_duration])
 
 list1 = [
-    [1, 1, 0, high, 0, flight_duration/10],
+    [1, 1, 0, 0, 0, flight_duration/10],
     [1, -1, 0, 0, 0, flight_duration/10],
     [1, 1, 0, 0, 0, flight_duration/10],
     [1, -1, 0, 0, 0, flight_duration/10],

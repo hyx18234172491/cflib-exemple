@@ -65,8 +65,8 @@ from cflib.utils import uri_helper
 
 # Change uris and sequences according to your setup
 
-URI1 = 'radio://0/80/2M/31E7E7E7E7'  #
-URI2 = 'radio://0/80/2M/76E7E7E7E7'  #
+URI1 = 'radio://0/80/2M/31E7E7E7E7'  # uwb1
+URI2 = 'radio://0/80/2M/55E7E7E7E7'  # uwb2
 # URI3 = 'radio://0/80/2M/53E7E7E7E7'  #
 # URI4 = 'radio://0/80/2M/58E7E7E7E7'  #
 # URI5 = 'radio://0/80/2M/1147E7E7E7'  #
@@ -243,5 +243,6 @@ if __name__ == '__main__':
         swarm.parallel(wait_for_param_download)
 
         swarm.parallel(addLogConfig, args_dict=seq_args)
-        swarm.parallel(run_sequence, args_dict=seq_args)
+        # swarm.parallel(run_sequence, args_dict=seq_args)
+        time.sleep(20)
     log_data.to_csv('test.csv')

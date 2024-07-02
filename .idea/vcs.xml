@@ -3,5 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/my-exemple/swarmRanging" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../libmotioncapture" vcs="Git" />
   </component>
 </project>

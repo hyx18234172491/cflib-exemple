@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/crazyflie-lib-python.iml" filepath="$PROJECT_DIR$/.idea/crazyflie-lib-python.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../libmotioncapture/.idea/libmotioncapture.iml" filepath="$PROJECT_DIR$/../libmotioncapture/.idea/libmotioncapture.iml" />
     </modules>
   </component>
 </project>

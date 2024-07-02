@@ -2,15 +2,7 @@
 体现距离与测距周期之间的关系
 """
 
-import cflib.crtp
-import numpy as np
-from cflib.crazyflie import Crazyflie
-from cflib.crazyflie.syncCrazyflie import SyncCrazyflie
-from cflib.positioning.motion_commander import MotionCommander
-import time
 import logging
-import pandas as pd
-from multiprocessing import Process
 import utils
 
 logging.basicConfig(level=logging.ERROR)
@@ -27,5 +19,5 @@ if __name__ == '__main__':
     }
 
     utils.log_ranging(link_uri=URI0, log_cfg_name='Statistic', log_save_path='../data/test.csv',
-                      log_var=log_var, period_in_ms=20, keep_time_in_s=100)
+                      log_var=log_var, period_in_ms=50, keep_time_in_s=100)
 

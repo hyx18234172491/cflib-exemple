@@ -3,5 +3,8 @@
   <component name="Black">
     <option name="sdkName" value="D:\install\anaconda-2023" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="D:\install\anaconda-2023" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="D:\install\annaconda2023" project-jdk-type="Python SDK" />
+  <component name="PyPackaging">
+    <option name="earlyReleasesAsUpgrades" value="true" />
+  </component>
 </project>

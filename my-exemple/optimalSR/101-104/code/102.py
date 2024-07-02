@@ -2,15 +2,7 @@
 体现距离与测距周期之间的关系
 """
 
-import cflib.crtp
-import numpy as np
-from cflib.crazyflie import Crazyflie
-from cflib.crazyflie.syncCrazyflie import SyncCrazyflie
-from cflib.positioning.motion_commander import MotionCommander
-import time
 import logging
-import pandas as pd
-from multiprocessing import Process
 import utils
 
 logging.basicConfig(level=logging.ERROR)

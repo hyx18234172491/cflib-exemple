@@ -65,8 +65,8 @@ from cflib.utils import uri_helper
 
 # Change uris and sequences according to your setup
 
-URI1 = 'radio://0/80/2M/31E7E7E7E7'  # uwb1
-URI2 = 'radio://0/80/2M/55E7E7E7E7'  # uwb2
+URI1 = 'radio://0/80/2M/31E7E7E7E7'  # uwb2
+URI2 = 'radio://0/80/2M/55E7E7E7E7'  # uwb1
 # URI3 = 'radio://0/80/2M/53E7E7E7E7'  #
 # URI4 = 'radio://0/80/2M/58E7E7E7E7'  #
 # URI5 = 'radio://0/80/2M/1147E7E7E7'  #
@@ -76,28 +76,22 @@ URI2 = 'radio://0/80/2M/55E7E7E7E7'  # uwb2
 # URI9 = 'radio://0/80/2M/43E7E7E7E7'  #
 
 
-
 high = 0.5
 
 sequences = [
     # 组号，x，y，z, yaw, duration
 ]
-flight_duration = 20
-sequences.append([0, 0, 0, high, 0, flight_duration])
+flight_duration_sum = 20
+stage_duration = 1
 
-list1 = [
-    [1, 1, 0, 0, 0, flight_duration/10],
-    [1, -1, 0, 0, 0, flight_duration/10],
-    [1, 1, 0, 0, 0, flight_duration/10],
-    [1, -1, 0, 0, 0, flight_duration/10],
-    [1, 1, 0, 0, 0, flight_duration/10],
-    [1, -1, 0, 0, 0, flight_duration/10],
-    [1, 1, 0, 0, 0, flight_duration/10],
-    [1, -1, 0, 0, 0, flight_duration/10],
-    [1, 1, 0, 0, 0, flight_duration/10],
-    [1, -1, 0, 0, 0, flight_duration/10]
+list1 = []
+for i in range(int(flight_duration_sum / stage_duration)+1):
+    if i % 2 == 0:
+        list1.append([1, 1, 0, 0, 0, stage_duration])
+    else:
+        list1.append([1, -1, 0, 0, 0, stage_duration])
 
-]
+sequences.append([0, 0, 0, high, 0, flight_duration_sum])
 sequences.append(list1)
 # for i in range(0,)
 
@@ -176,30 +170,30 @@ def run_sequence(scf, sequence):
 
 
 def logCallback(timestamp, data, logconf):
-    global log_var,log_data
+    global log_var, log_data
     temp = {}
     temp['timestamp'] = timestamp
     temp['logNumber'] = logconf.name
     print(logconf.name)
     for log_var_name, log_var_type in log_var.items():
         temp[log_var_name] = data[log_var_name]
-    # try:
-    #     global mc
-    #     for name, obj in mc.rigidBodies.items():
-    #
-    #         print(name, obj.position, obj.rotation.z)
-    #         temp[name+'x'] = obj.position[0]
-    #         temp[name + 'y'] = obj.position[1]
-    #         temp[name + 'z'] = obj.position[2]
-    # except:
-    #     pass
+    try:
+        global mc
+        mc.waitForNextFrame()
+        for name, obj in mc.rigidBodies.items():
+            print(name, obj.position, obj.rotation.z)
+            temp[name + 'x'] = obj.position[0]
+            temp[name + 'y'] = obj.position[1]
+            temp[name + 'z'] = obj.position[2]
+    except:
+        pass
 
     log_data = log_data.append(temp, ignore_index=True)
     pass
 
 
 def addLogConfig(scf, sequence):
-    logconf = LogConfig(name='log'+str(sequence[0]), period_in_ms=50)
+    logconf = LogConfig(name='log' + str(sequence[0]), period_in_ms=48)
     global log_var
     for log_var_name, log_var_type in log_var.items():
         logconf.add_variable(log_var_name, log_var_type)
@@ -226,11 +220,13 @@ if __name__ == '__main__':
     }
     # log_data = pd.DataFrame(columns=['logNumber',log_var.keys()])
     log_data = pd.DataFrame()
-    # try:
-    #     import motioncapture
-    #     mc = motioncapture.connect("vicon", {"hostname": "192.168.229.10"})
-    # except:
-    #     pass
+    try:
+        import motioncapture
+
+        mc = motioncapture.connect("vicon", {"hostname": "172.20.10.6"})
+        print("connect sucess")
+    except:
+        pass
     cflib.crtp.init_drivers()
 
     factory = CachedCfFactory(rw_cache='./cache')
@@ -243,6 +239,6 @@ if __name__ == '__main__':
         swarm.parallel(wait_for_param_download)
 
         swarm.parallel(addLogConfig, args_dict=seq_args)
-        # swarm.parallel(run_sequence, args_dict=seq_args)
-        time.sleep(20)
+        swarm.parallel(run_sequence, args_dict=seq_args)
+
     log_data.to_csv('test.csv')

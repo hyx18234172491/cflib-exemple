@@ -239,6 +239,6 @@ if __name__ == '__main__':
         swarm.parallel(wait_for_param_download)
 
         swarm.parallel(addLogConfig, args_dict=seq_args)
-        swarm.parallel(run_sequence, args_dict=seq_args)
-
+        # swarm.parallel(run_sequence, args_dict=seq_args)
+        time.sleep(5)
     log_data.to_csv('test.csv')

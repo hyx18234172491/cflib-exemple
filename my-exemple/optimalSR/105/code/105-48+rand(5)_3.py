@@ -22,7 +22,7 @@ print("Mean Absolute Error:", mae)
 # Plotting the distances
 plt.figure(figsize=(12, 6))
 plt.plot(filtered_data['timestamp'], filtered_data['Statistic.dist1'], label='Statistic.dist1', marker='o')
-plt.plot(filtered_data['timestamp'], filtered_data['UAV_Distance_cm'], label='UAV Distance (cm)', marker='o')
+# plt.plot(filtered_data['timestamp'], filtered_data['UAV_Distance_cm'], label='UAV Distance (cm)', marker='o')
 
 plt.title('Comparison of Statistic.dist1 and UAV Distance (cm) Over Time')
 plt.xlabel('Timestamp')

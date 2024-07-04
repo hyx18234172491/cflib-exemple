@@ -81,7 +81,7 @@ high = 0.5
 sequences = [
     # 组号，x，y，z, yaw, duration
 ]
-flight_duration_sum = 20
+flight_duration_sum = 10
 stage_duration = 1
 
 list1 = [['1']]
@@ -99,7 +99,7 @@ sequences.append(list1)
 # for i in range(0,)
 
 seq_args = {
-    URI1: [sequences[0]],
+    # URI1: [sequences[0]],
     URI2: [sequences[1]],
     # URI3: [sequences[2]],
     # URI4: [sequences[3]],
@@ -112,7 +112,7 @@ seq_args = {
 
 # List of URIs, comment the one you do not want to fly
 uris = {
-    URI1,
+    # URI1,
     URI2,
     # URI3,
     # URI4,
@@ -162,7 +162,8 @@ def run_sequence(scf, sequence):
 
         take_off(cf)
         commander = cf.high_level_commander
-        for position in sequence:
+        for i in range(1,len(sequence)):
+            position = sequence[i]
             print('Setting position {}'.format(position))
             # x ,y ,z, 不知道, time
             commander.go_to(x=position[1], y=position[2], z=position[3], yaw=0, duration_s=3, relative=True)
@@ -230,7 +231,6 @@ if __name__ == '__main__':
         swarm.parallel(wait_for_param_download)
 
         swarm.parallel(addLogConfig, args_dict=seq_args)
-        # swarm.parallel(run_sequence, args_dict=seq_args)
-        time.sleep(10)
+        swarm.parallel(run_sequence, args_dict=seq_args)
 
     log_data.to_csv('test.csv')

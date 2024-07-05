@@ -81,19 +81,21 @@ high = 0.5
 sequences = [
     # 组号，x，y，z, yaw, duration
 ]
-flight_duration_sum = 20
+flight_duration_sum = 10
 stage_duration = 1
 
-list1 = []
-for i in range(int(flight_duration_sum / stage_duration)+1):
+list1 = [['1']]
+for i in range(int(flight_duration_sum / stage_duration) + 1):
     if i % 2 == 0:
         list1.append([1, 1, 0, 0, 0, stage_duration])
     else:
         list1.append([1, -1, 0, 0, 0, stage_duration])
 
-sequences.append([0, 0, 0, high, 0, flight_duration_sum])
+sequences.append([
+    ['0'],
+    [0, 0, 0, high, 0, flight_duration_sum]
+])
 sequences.append(list1)
-# for i in range(0,)
 
 seq_args = {
     URI1: [sequences[0]],
@@ -193,13 +195,14 @@ def logCallback(timestamp, data, logconf):
 
 
 def addLogConfig(scf, sequence):
-    logconf = LogConfig(name='log' + str(sequence[0]), period_in_ms=48)
-    global log_var
-    for log_var_name, log_var_type in log_var.items():
-        logconf.add_variable(log_var_name, log_var_type)
-    scf.cf.log.add_config(logconf)
-    logconf.data_received_cb.add_callback(logCallback)
-    logconf.start()
+    if str(sequence[0][0])=='0':
+        logconf = LogConfig(name='log' + str(sequence[0][0]), period_in_ms=48)
+        global log_var
+        for log_var_name, log_var_type in log_var.items():
+            logconf.add_variable(log_var_name, log_var_type)
+        scf.cf.log.add_config(logconf)
+        logconf.data_received_cb.add_callback(logCallback)
+        logconf.start()
 
 
 if __name__ == '__main__':
@@ -240,5 +243,4 @@ if __name__ == '__main__':
 
         swarm.parallel(addLogConfig, args_dict=seq_args)
         # swarm.parallel(run_sequence, args_dict=seq_args)
-        time.sleep(5)
     log_data.to_csv('test.csv')

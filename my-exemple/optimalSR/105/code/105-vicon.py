@@ -161,12 +161,12 @@ def run_sequence(scf, sequence):
 
         take_off(cf)
         commander = cf.high_level_commander
-        for position in sequence:
+        for i in range(1, len(sequence)):
+            position = sequence[i]
             print('Setting position {}'.format(position))
             # x ,y ,z, 不知道, time
             commander.go_to(x=position[1], y=position[2], z=position[3], yaw=0, duration_s=3, relative=True)
             time.sleep(3)
-        land(cf, sequence[-1])
     except Exception as e:
         print(e)
 

@@ -14,15 +14,20 @@ data['UAV_Distance'] = np.sqrt((data['UAV1x'] - data['UAV2x'])**2 +
 # Filter out rows where Statistic.dist1 is -1
 filtered_data = data[data['Statistic.dist1'] != -1]
 
+# Filter data for timestamp between 35000 and 50000
+time_filtered_data = filtered_data[(filtered_data['timestamp'] > 35000) & (filtered_data['timestamp'] < 50000)]
+
 # Convert UAV distance from meters to centimeters
-filtered_data['UAV_Distance_cm'] = filtered_data['UAV_Distance'] * 100
+time_filtered_data['UAV_Distance_cm'] = time_filtered_data['UAV_Distance'] * 100
+
 # Calculate the Mean Absolute Error
-mae = np.abs(filtered_data['Statistic.dist1'] - filtered_data['UAV_Distance_cm']).mean()
+mae = np.abs(time_filtered_data['Statistic.dist1'] - time_filtered_data['UAV_Distance_cm']).mean()
 print("Mean Absolute Error:", mae)
+
 # Plotting the distances
 plt.figure(figsize=(12, 6))
-plt.plot(filtered_data['timestamp'], filtered_data['Statistic.dist1'], label='Statistic.dist1', marker='o')
-plt.plot(filtered_data['timestamp'], filtered_data['UAV_Distance_cm'], label='UAV Distance (cm)', marker='o')
+plt.plot(time_filtered_data['timestamp'], time_filtered_data['Statistic.dist1'], label='Statistic.dist1', marker='o', markersize=1)
+plt.plot(time_filtered_data['timestamp'], time_filtered_data['UAV_Distance_cm'], label='UAV Distance (cm)', marker='o', markersize=1)
 
 plt.title('Comparison of Statistic.dist1 and UAV Distance (cm) Over Time')
 plt.xlabel('Timestamp')

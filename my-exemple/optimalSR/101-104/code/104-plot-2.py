@@ -56,19 +56,19 @@ plt.figure(figsize=(10, 6))
 
 # Define improved colors for each group
 colors = ['#e6194B', '#3cb44b', '#4363d8']  # Red, green, blue with better shades
-
+legend = ["Swarm ranging1.0", "Swarm ranging1.0 with 3 txTimeStamp", "Swarm ranging1.0"]
 # Plotting with aesthetic enhancements and adjusted group spacing
 for i, (buffer_type, medians) in enumerate(buffer_medians_updated_seq.items()):
     median_values = [medians.get(loss, 0) for loss in loss_levels]
-    bars = plt.bar(index + i * bar_width, median_values, bar_width, label=buffer_type, color=colors[i % len(colors)])
+    bars = plt.bar(index + i * bar_width, median_values, bar_width, label=legend[i], color=colors[i % len(colors)])
     for bar in bars:
         yval = bar.get_height()
         plt.text(bar.get_x() + bar.get_width()/2, yval, round(yval, 2), ha='center', va='bottom', fontweight='bold')
 
 xtick = ['5%loss', '10%loss', '15%loss', '20%loss', '25%loss', '30%loss']
 plt.xlabel('Loss Levels', fontsize=12)
-plt.ylabel('Median Ratio (computeNum/recvSeq)', fontsize=12)
-plt.title('Enhanced Median Ratio by Loss Level and Buffer Type', fontsize=14)
+plt.ylabel('Average Ranging Ratio', fontsize=12)
+# plt.title('Enhanced Median Ratio by Loss Level and Buffer Type', fontsize=14)
 plt.xticks(index + bar_width, xtick, fontsize=11)
 plt.legend(fontsize=11)
 # plt.grid(axis='y', linestyle='--', zorder=0, color='grey')

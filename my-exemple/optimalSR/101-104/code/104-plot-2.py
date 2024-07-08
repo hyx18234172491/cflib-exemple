@@ -55,7 +55,7 @@ index = np.arange(len(loss_levels)) * 1.2  # Moderately reduced spacing
 plt.figure(figsize=(10, 6))
 
 # Define improved colors for each group
-colors = ['#e6194B', '#3cb44b', '#4363d8']  # Red, green, blue with better shades
+colors = ['#e6194B', '#3cb44b', '#4363d8']
 legend = ["Swarm ranging1.0", "Swarm ranging1.0 with 3 txTimeStamp", "Swarm ranging1.0"]
 # Plotting with aesthetic enhancements and adjusted group spacing
 for i, (buffer_type, medians) in enumerate(buffer_medians_updated_seq.items()):

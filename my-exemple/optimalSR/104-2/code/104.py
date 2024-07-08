@@ -7,7 +7,7 @@ import utils
 
 logging.basicConfig(level=logging.ERROR)
 
-URI0 = 'radio://0/80/2M/55E7E7E7E7'
+URI0 = 'radio://0/80/2M/31E7E7E7E7'
 
 if __name__ == '__main__':
     # relative_pos

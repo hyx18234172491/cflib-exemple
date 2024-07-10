@@ -1,8 +1,7 @@
-
 import time
 import warnings
-warnings.filterwarnings("ignore")
 
+warnings.filterwarnings("ignore")
 
 import pandas as pd
 
@@ -21,13 +20,13 @@ from cflib.positioning.motion_commander import MotionCommander
 from cflib.utils import uri_helper
 
 # Change uris and sequences according to your setup
-# URI1 = 'radio://0/80/2M/14E7E7E7E7'  # uwb1
-URI1 = 'radio://0/80/2M/68E7E7E7E7'  # uwb2
-URI2 = 'radio://0/80/2M/1297E7E7E7'  # uwb3
-# URI3 = 'radio://0/80/2M/53E7E7E7E7'  #
-# URI4 = 'radio://0/80/2M/58E7E7E7E7'  #
-# URI5 = 'radio://0/80/2M/1147E7E7E7'  #
-# URI6 = 'radio://0/80/2M/57E7E7E7E7'
+URI0 = 'radio://0/80/2M/26E7E7E7E7'  # uwb0
+URI1 = 'radio://0/80/2M/14E7E7E7E7'  # uwb1
+URI2 = 'radio://0/80/2M/68E7E7E7E7'  # uwb2
+URI3 = 'radio://0/80/2M/1297E7E7E7'  # uwb3
+URI4 = 'radio://0/80/2M/31E7E7E7E7'  # uwb4
+URI5 = 'radio://0/80/2M/33E7E7E7E7'  # uwb5
+URI6 = 'radio://0/80/2M/72E7E7E7E7'  # uwb6
 # URI7 = 'radio://0/80/2M/54E7E7E7E7'  #
 # URI8 = 'radio://0/80/2M/31E7E7E7E7'  #
 # URI9 = 'radio://0/80/2M/43E7E7E7E7'  #
@@ -95,15 +94,15 @@ def addLogConfig(scf, sequence):
 
 if __name__ == '__main__':
     log_var = {
-        'Statistic.recvSeq1': 'uint16_t',
-        'Statistic.recvNum1': 'uint16_t',
-        'Statistic.compute1num1': 'uint16_t',
-        'Statistic.compute2num1': 'uint16_t',
-
         'Statistic.recvSeq2': 'uint16_t',
         'Statistic.recvNum2': 'uint16_t',
         'Statistic.compute1num2': 'uint16_t',
         'Statistic.compute2num2': 'uint16_t',
+
+        'Statistic.recvSeq3': 'uint16_t',
+        'Statistic.recvNum3': 'uint16_t',
+        'Statistic.compute1num3': 'uint16_t',
+        'Statistic.compute2num3': 'uint16_t',
     }
     log_data = pd.DataFrame()
     cflib.crtp.init_drivers()

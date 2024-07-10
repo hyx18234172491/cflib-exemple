@@ -29,7 +29,9 @@ URI5 = 'radio://0/80/2M/33E7E7E7E7'  # uwb5
 URI6 = 'radio://0/80/2M/72E7E7E7E7'  # uwb6
 # URI7 = 'radio://0/80/2M/54E7E7E7E7'  #
 # URI8 = 'radio://0/80/2M/31E7E7E7E7'  #
-# URI9 = 'radio://0/80/2M/43E7E7E7E7'  #
+URI9 = 'radio://0/80/2M/47E7E7E7E7'  #
+URI10 = 'radio://0/80/2M/76E7E7E7E7'  #
+URI11 = 'radio://0/80/2M/28E7E7E7E7'  #
 
 
 sequences = []
@@ -51,6 +53,7 @@ seq_args = {
 
 # List of URIs, comment the one you do not want to fly
 uris = {
+    # URI0,
     URI1,
     URI2,
     # URI3,
@@ -94,10 +97,10 @@ def addLogConfig(scf, sequence):
 
 if __name__ == '__main__':
     log_var = {
-        'Statistic.recvSeq2': 'uint16_t',
-        'Statistic.recvNum2': 'uint16_t',
-        'Statistic.compute1num2': 'uint16_t',
-        'Statistic.compute2num2': 'uint16_t',
+        'Statistic.recvSeq4': 'uint16_t',
+        'Statistic.recvNum4': 'uint16_t',
+        'Statistic.compute1num4': 'uint16_t',
+        'Statistic.compute2num4': 'uint16_t',
 
         'Statistic.recvSeq3': 'uint16_t',
         'Statistic.recvNum3': 'uint16_t',

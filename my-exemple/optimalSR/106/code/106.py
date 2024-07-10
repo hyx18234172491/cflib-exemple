@@ -16,6 +16,7 @@ if __name__ == '__main__':
         'recvNum1': 'uint16_t',
         'compute1num1': 'uint16_t',
         'compute2num1': 'uint16_t',
+
         'recvSeq2': 'uint16_t',
         'recvNum2': 'uint16_t',
         'compute1num2': 'uint16_t',

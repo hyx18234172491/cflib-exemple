@@ -43,7 +43,7 @@ def plot_medians(results, labels):
 file_paths = ['../data/5架性能最优-30+rand(60).csv',
               '../data/10架性能最优-30+rand(60).csv',
               '../data/15架性能最优-30+rand(60).csv',
-              '../data/20架性能最优-30+rand(60).csv',
+              '../data/20架性能最优-30+rand(60)-2.csv',
               ]
 labels = ['5-frame',
           '10-frame',

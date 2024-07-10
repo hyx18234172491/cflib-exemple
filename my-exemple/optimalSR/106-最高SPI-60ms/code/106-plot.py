@@ -40,11 +40,11 @@ def plot_medians(results, labels):
 
 
 # Example usage
-file_paths = ['../data/5架性能最优-70+rand(60).csv',
-              '../data/10架性能最优-70+rand(60).csv',
-              '../data/15架性能最优-70+rand(60).csv',
-              '../data/20架性能最优-70+rand(60).csv',
-              '../data/test.csv',
+file_paths = ['../data/5架性能最优-30+rand(60).csv',
+              # '../data/10架性能最优-70+rand(60).csv',
+              # '../data/15架性能最优-70+rand(60).csv',
+              # '../data/20架性能最优-70+rand(60).csv',
+              # '../data/test.csv',
               # '../data/9架最优性能.csv',
               # '../data/12架最优性能.csv',
               # '../data/15架最优性能.csv',
@@ -52,11 +52,11 @@ file_paths = ['../data/5架性能最优-70+rand(60).csv',
               # '../data/21架最优性能.csv',
               ]
 labels = ['5-frame',
-          '10-frame',
-          # '12-frame',
-          '15-frame',
-          '20-frame',
-          '25-frame',
+          # '10-frame',
+          # # '12-frame',
+          # '15-frame',
+          # '20-frame',
+          # '25-frame',
           # '21-frame',
           ]
 

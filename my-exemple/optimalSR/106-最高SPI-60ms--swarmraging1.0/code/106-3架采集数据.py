@@ -94,7 +94,7 @@ def logCallback(timestamp, data, logconf):
 
 
 def addLogConfig(scf, sequence):
-    logconf = LogConfig(name='log' + str(sequence[0][0]), period_in_ms=30)
+    logconf = LogConfig(name='log' + str(sequence[0][0]), period_in_ms=60)
     global log_var
     for log_var_name, log_var_type in log_var.items():
         logconf.add_variable(log_var_name, log_var_type)

@@ -35,19 +35,19 @@ def plot_medians(results, labels):
     plt.show()
 
 # Example usage
-file_paths = ['../data/6架最优性能.csv',
-              '../data/9架最优性能.csv',
-              '../data/12架最优性能.csv',
-              '../data/15架最优性能.csv',
-              '../data/18架最优性能.csv',
-              '../data/21架最优性能.csv',
+file_paths = ['../data/5架性能最优-70+rand(60).csv',
+              # '../data/9架最优性能.csv',
+              # '../data/12架最优性能.csv',
+              # '../data/15架最优性能.csv',
+              # '../data/18架最优性能.csv',
+              # '../data/21架最优性能.csv',
               ]
-labels = ['6-frame',
-          '9-frame',
-          '12-frame',
-          '15-frame',
-          '18-frame',
-          '21-frame',
+labels = ['5-frame',
+          # '9-frame',
+          # '12-frame',
+          # '15-frame',
+          # '18-frame',
+          # '21-frame',
           ]
 
 data_frames = load_data(file_paths)

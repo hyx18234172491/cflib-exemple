@@ -10,7 +10,7 @@ from cflib.positioning.motion_commander import MotionCommander
 from cflib.utils import uri_helper
 
 # URI = uri_helper.uri_from_env(default='radio://0/80/2M/50E7E7E7E7')
-URI = uri_helper.uri_from_env(default='radio://0/80/2M/E7E7E7E718')
+URI = uri_helper.uri_from_env(default='radio://0/80/2M/26E7E7E7E7')
 
 DEFAULT_HEIGHT = 0.3
 BOX_LIMIT = 0.5
@@ -35,7 +35,13 @@ y_vel = 0
 def on_up_arrow():
     print("向上键被按下")
     global x_vel, y_vel
-    x_vel = random.randint(0, 3) % 3 * 0.1 + 0.5
+    x_vel =  0.05
+    y_vel = 0
+
+def on_down_arrow():
+    print("向下键被按下")
+    global x_vel, y_vel
+    x_vel = -0.05
     y_vel = 0
 
 
@@ -43,14 +49,14 @@ def on_left_arrow():
     print("向 左键被按下")
     global x_vel, y_vel
     x_vel = 0
-    y_vel = random.randint(0, 3) * 0.1 + 0.3
+    y_vel = 0.05
 
 
 def on_right_arrow():
-    print("向左键被按下")
+    print("向右键被按下")
     global x_vel, y_vel
     x_vel = 0
-    y_vel = -random.randint(0, 3) * 0.1 + 0.3
+    y_vel = -0.05
 
 
 def on_space():
@@ -71,6 +77,7 @@ def no_key_pressed():
 keyboard.on_press_key("up", lambda _: on_up_arrow())
 keyboard.on_press_key("left", lambda _: on_left_arrow())
 keyboard.on_press_key("right", lambda _: on_right_arrow())
+keyboard.on_press_key("down", lambda _: on_down_arrow())
 keyboard.on_press_key("space", lambda _: on_space())
 
 if __name__ == '__main__':
@@ -83,7 +90,7 @@ if __name__ == '__main__':
             try:
                 while True:
                     if not keyboard.is_pressed("up") and not keyboard.is_pressed("left") and not keyboard.is_pressed(
-                            "space") and not keyboard.is_pressed("right"):
+                            "space") and not keyboard.is_pressed("right") and not keyboard.is_pressed("down"):
                         no_key_pressed()
 
                         mc.start_linear_motion(x_vel, y_vel, 0)

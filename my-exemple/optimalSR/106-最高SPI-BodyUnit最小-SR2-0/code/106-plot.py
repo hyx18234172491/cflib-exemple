@@ -10,7 +10,7 @@ def process_data(df):
         df_subtracted[col] = df_filtered[col]
     df_cleaned = df_subtracted[df_subtracted['Statistic.recvSeq4'] != 0]
     df_cleaned['recvNum4_ratio'] = df_cleaned['Statistic.recvNum4'] / df_cleaned['Statistic.recvSeq4']
-    df_cleaned['computeNum4_ratio'] = (df_cleaned['Statistic.compute1num4']) / \
+    df_cleaned['computeNum4_ratio'] = (df_cleaned['Statistic.compute1num4']+df_cleaned['Statistic.compute2num4']) / \
                                       df_cleaned['Statistic.recvSeq4']
     return df_cleaned['recvNum4_ratio'].median(), df_cleaned['computeNum4_ratio'].median()
 
@@ -41,12 +41,13 @@ def plot_medians(results, labels):
 
 # Example usage
 file_paths = [
-    '../data/5架1.0-60.csv',
-    '../data/10架1.0-60.csv',
-    '../data/15架1.0-60.csv',
-    '../data/20架1.0-60.csv',
-    '../data/5架1.0-30+rand(60).csv',
-    '../data/10架1.0-30+rand(60).csv',
+    '../data/5架2.0-30+rand(60).csv',
+    '../data/10架2.0-30+rand(60).csv',
+    # '../data/10架1.0-60.csv',
+    # '../data/15架1.0-60.csv',
+    # '../data/20架1.0-60.csv',
+    # '../data/5架1.0-30+rand(60).csv',
+    # '../data/10架1.0-30+rand(60).csv',
 
     # '../data/25架1.0-60.csv',
     # '../data/10架1.0-30+rand(60).csv',
@@ -55,10 +56,10 @@ file_paths = [
 labels = [
     '5-frame',
     '10-frame',
-    '15-frame',
-    '20-frame',
-    '5-frame',
-    '10-frame',
+    # '15-frame',
+    # '20-frame',
+    # '5-frame',
+    # '10-frame',
     # '21-frame',
 ]
 

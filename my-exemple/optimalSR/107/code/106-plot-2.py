@@ -10,8 +10,8 @@ def process_data(df):
         df_subtracted[col] = df_filtered[col]
     df_cleaned = df_subtracted[df_subtracted['Statistic.recvSeq13'] != 0]
     df_cleaned['recvNum13_ratio'] = df_cleaned['Statistic.recvNum13'] / df_cleaned['Statistic.recvSeq13']
-    df_cleaned['computeNum13_ratio'] = (df_cleaned['Statistic.compute1num13']+df_cleaned['Statistic.compute2num13']) / \
-                                      df_cleaned['Statistic.recvSeq13']
+    df_cleaned['computeNum13_ratio'] = (df_cleaned['Statistic.compute1num13'] + df_cleaned['Statistic.compute2num13']) / \
+                                       df_cleaned['Statistic.recvSeq13']
     return df_cleaned['recvNum13_ratio'].median(), df_cleaned['computeNum13_ratio'].median()
 
 
@@ -40,17 +40,21 @@ def plot_medians(results, labels):
 
 
 # Example usage
-file_paths = ['../data/两架均55+rand(10)-1.0.csv',
-              '../data/两架均50+rand(20)-1.0.csv',
-              '../data/两架均40+rand(40)-1.0.csv',
-              '../data/两架均30+rand(60)-1.0.csv',
+file_paths = [
+    '../data/两架均60-1.0.csv',
+    '../data/两架均55+rand(10)-1.0.csv',
+    '../data/两架均50+rand(20)-1.0.csv',
+    '../data/两架均40+rand(40)-1.0.csv',
+    '../data/两架均30+rand(60)-1.0.csv',
 
-              ]
-labels = ['55+rand(10)',
-          '50+rand(20)',
-          '40+rand(40)',
-          '30+rand(60)',
-          ]
+]
+labels = [
+    '60',
+    '55+rand(10)',
+    '50+rand(20)',
+    '40+rand(40)',
+    '30+rand(60)',
+]
 
 data_frames = load_data(file_paths)
 results = [process_data(df) for df in data_frames]

@@ -45,6 +45,7 @@ file_paths = [
     '../data/10架2.0-30+rand(60).csv',
     '../data/15架2.0-30+rand(60).csv',
     '../data/20架2.0-30+rand(60).csv',
+    # '../data/25架2.0-30+rand(60)-充电-去排序.csv',
     '../data/25架2.0-30+rand(60).csv',
     # '../data/10架1.0-60.csv',
     # '../data/15架1.0-60.csv',

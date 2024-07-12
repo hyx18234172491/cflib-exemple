@@ -46,7 +46,7 @@ file_paths = [
     # '../data/15架1.0-60.csv',
     # '../data/20架1.0-60.csv',
     '../data/5架1.0-30+rand(60).csv',
-    # '../data/10架1.0-30+rand(60).csv',
+    '../data/10架1.0-30+rand(60).csv',
     # '../data/15架1.0-30+rand(60).csv',
     # '../data/20架1.0-30+rand(60).csv',
     # '../data/25架-1.0-30+rand(60)-1.csv',
@@ -57,7 +57,7 @@ file_paths = [
 ]
 labels = [
     '5-frame',
-    # '10-frame',
+    '10-frame',
     # '15-frame',
     # '20-frame',
     # '25-frame',

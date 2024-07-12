@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
+
 def process_data(df):
     df_filtered = df[df['logNumber'] == 'log0']
     numeric_cols = df_filtered.select_dtypes(include='number').columns
@@ -9,12 +10,15 @@ def process_data(df):
         df_subtracted[col] = df_filtered[col]
     df_cleaned = df_subtracted[df_subtracted['Statistic.recvSeq4'] != 0]
     df_cleaned['recvNum4_ratio'] = df_cleaned['Statistic.recvNum4'] / df_cleaned['Statistic.recvSeq4']
-    df_cleaned['computeNum4_ratio'] = (df_cleaned['Statistic.compute1num4'] + df_cleaned['Statistic.compute2num4']) / df_cleaned['Statistic.recvSeq4']
+    df_cleaned['computeNum4_ratio'] = (df_cleaned['Statistic.compute1num4']+df_cleaned['Statistic.compute2num4']) / \
+                                      df_cleaned['Statistic.recvSeq4']
     return df_cleaned['recvNum4_ratio'].median(), df_cleaned['computeNum4_ratio'].median()
+
 
 def load_data(file_paths):
     data_frames = [pd.read_csv(path) for path in file_paths]
     return data_frames
+
 
 def plot_medians(results, labels):
     recvNum4_medians = [result[0] for result in results]
@@ -34,21 +38,35 @@ def plot_medians(results, labels):
     fig.tight_layout()
     plt.show()
 
+
 # Example usage
-file_paths = ['../data/6架最优性能-60+rand(40).csv',
-              '../data/9架最优性能-60+rand(40).csv',
-              '../data/12架最优性能-60+rand(40).csv',
-              '../data/15架最优性能-60+rand(40).csv',
-              '../data/18架最优性能-60+rand(40).csv',
-              '../data/21架最优性能-60+rand(40).csv',
-              ]
-labels = ['6-frame',
-          '9-frame',
-          '12-frame',
-          '15-frame',
-          '18-frame',
-          '21-frame',
-          ]
+file_paths = [
+    '../data/5架2.0-30+rand(60).csv',
+    # '../data/10架2.0-30+rand(60).csv',
+    # '../data/15架2.0-30+rand(60).csv',
+    # '../data/20架2.0-30+rand(60).csv',
+    # # '../data/25架2.0-30+rand(60)-充电-去排序.csv',
+    # '../data/25架2.0-30+rand(60).csv',
+    # '../data/10架1.0-60.csv',
+    # '../data/15架1.0-60.csv',
+    # '../data/20架1.0-60.csv',
+    # '../data/5架1.0-30+rand(60).csv',
+    # '../data/10架1.0-30+rand(60).csv',
+
+    # '../data/25架1.0-60.csv',
+    # '../data/10架1.0-30+rand(60).csv',
+
+]
+labels = [
+    '5-frame',
+    # '10-frame',
+    # '15-frame',
+    # '20-frame',
+    # '25-frame',
+    # '5-frame',
+    # '10-frame',
+    # '21-frame',
+]
 
 data_frames = load_data(file_paths)
 results = [process_data(df) for df in data_frames]

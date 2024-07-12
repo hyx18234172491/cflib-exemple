@@ -43,7 +43,7 @@ def plot_medians(results, labels):
 file_paths = [
     '../data/5架2.0-30+rand(60).csv',
     '../data/10架2.0-30+rand(60).csv',
-    # '../data/15架2.0-30+rand(60).csv',
+    '../data/15架2.0-30+rand(60).csv',
     # '../data/20架2.0-30+rand(60).csv',
     # # '../data/25架2.0-30+rand(60)-充电-去排序.csv',
     # '../data/25架2.0-30+rand(60).csv',
@@ -60,7 +60,7 @@ file_paths = [
 labels = [
     '5-frame',
     '10-frame',
-    # '15-frame',
+    '15-frame',
     # '20-frame',
     # '25-frame',
     # '5-frame',

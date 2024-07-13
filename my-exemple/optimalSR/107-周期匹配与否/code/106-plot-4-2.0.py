@@ -33,17 +33,21 @@ def plot_medians(results, labels):
     computeNum4_medians = [result[1] for result in results]
     computeNum2_and1_ratio = [result[2] for result in results]
     x = range(len(labels))
-    width = 0.25
-    fig, ax = plt.subplots(figsize=(8, 6))
-    rects1 = ax.bar(x, recvNum2_medians, width, label='recvNum2/recvSeq2')
-    rects3 = ax.bar([p + width for p in x], computeNum2_and1_ratio, width, label='(compute1num2+compute2num4)/recvSeq2')
-    rects2 = ax.bar([p + 2 * width for p in x], computeNum4_medians, width,
-                    label='(compute1num2+compute2num4)/recvSeq2')
-    ax.set_ylabel('Medians')
-    ax.set_title('Median Ratios by Frame Setup')
+    width = 0.26
+    fig, ax = plt.subplots(figsize=(9, 6))
+    rects1 = ax.bar(x, recvNum2_medians, width, label='Reception packet')
+    rects2 = ax.bar([p + width for p in x], computeNum4_medians, width,
+                    label='swarm ranging 1.0 Ranging')
+    rects3 = ax.bar([p + 2 * width for p in x], computeNum2_and1_ratio, width, label='swarm ranging 2.0 Ranging')
+
+    ax.set_ylabel('Reception (Ranging) Ratio',fontsize=16)
+    ax.set_xlabel('Period (ms)',fontsize=16)
+    # ax.set_title('Median Ratios by Frame Setup')
     ax.set_xticks([p + width / 2 for p in x])
     ax.set_xticklabels(labels)
-    ax.legend()
+    # 设置图例位置在一行上方居中
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.10), ncol=3,fontsize=11)
+
     ax.bar_label(rects1, padding=3)
     ax.bar_label(rects2, padding=3)
     ax.bar_label(rects3, padding=3)

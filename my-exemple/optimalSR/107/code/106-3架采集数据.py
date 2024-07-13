@@ -20,7 +20,7 @@ from cflib.positioning.motion_commander import MotionCommander
 from cflib.utils import uri_helper
 
 # Change uris and sequences according to your setup
-URI0 = 'radio://0/80/2M/26E7E7E7E7'  # uwb0
+URI0 = 'radio://0/80/2M/53E7E7E7E7'  # uwb0
 URI1 = 'radio://0/80/2M/14E7E7E7E7'  # uwb1
 URI2 = 'radio://0/80/2M/68E7E7E7E7'  # uwb2
 URI3 = 'radio://0/80/2M/1297E7E7E7'  # uwb3
@@ -48,8 +48,8 @@ sequences.append([['0']])
 sequences.append([['1']])
 
 seq_args = {
-    URI2: [sequences[0]],
-    URI13: [sequences[1]],
+    URI0: [sequences[0]],
+    URI2: [sequences[1]],
     # URI3: [sequences[2]],
     # URI4: [sequences[3]],
     # URI5: [sequences[4]],
@@ -61,7 +61,7 @@ seq_args = {
 
 # List of URIs, comment the one you do not want to fly
 uris = {
-    # URI0,
+    URI0,
     # URI1,
     URI2,
     # URI3,
@@ -71,7 +71,7 @@ uris = {
     # URI7,
     # URI8,
     # # URI9,
-    URI13
+    # URI13
 }
 
 
@@ -113,10 +113,10 @@ if __name__ == '__main__':
         'Statistic.compute1num2': 'uint16_t',
         'Statistic.compute2num2': 'uint16_t',
 
-        'Statistic.recvSeq13': 'uint16_t',
-        'Statistic.recvNum13': 'uint16_t',
-        'Statistic.compute1num13': 'uint16_t',
-        'Statistic.compute2num13': 'uint16_t',
+        'Statistic.recvSeq0': 'uint16_t',
+        'Statistic.recvNum0': 'uint16_t',
+        'Statistic.compute1num0': 'uint16_t',
+        'Statistic.compute2num0': 'uint16_t',
     }
     log_data = pd.DataFrame()
     cflib.crtp.init_drivers()

@@ -41,9 +41,9 @@ def plot_medians(results, labels):
 
 # Example usage
 file_paths = [
-    '../data/2号20+0号70.csv',
-    '../data/2号30+0号70.csv',
-    '../data/2号40+0号70.csv',
+    '../data/2号20+0号70-1.0.csv',
+    '../data/2号30+0号70-1.0.csv',
+    '../data/2号40+0号70-1.0.csv',
 
 ]
 labels = [

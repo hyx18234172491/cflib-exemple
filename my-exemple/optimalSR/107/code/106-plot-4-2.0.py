@@ -43,17 +43,20 @@ def plot_medians(results, labels):
 file_paths = [
     '../data/2号20+0号70-2.0.csv',
     '../data/2号30+0号70-2.0.csv',
+    '../data/2号40+0号70-2.0.csv',
+    '../data/2号50+0号70-2.0.csv',
+    '../data/2号60+0号70-2.0.csv',
+    '../data/2号70+0号70-2.0.csv',
     # '../data/2号40+0号70-1.0.csv',
 
 ]
 labels = [
-    '2号20+0号70',
-    '2号30+0号70',
-    # '2号40+0号70',
-    # '55+rand(10)',
-    # '50+rand(20)',
-    # '40+rand(40)',
-    # '30+rand(60)',
+    '20',
+    '30',
+    '40',
+    '50',
+    '60',
+    '70',
 ]
 
 data_frames = load_data(file_paths)

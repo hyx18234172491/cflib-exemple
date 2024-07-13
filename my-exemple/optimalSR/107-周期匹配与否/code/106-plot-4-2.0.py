@@ -10,9 +10,17 @@ def process_data(df):
         df_subtracted[col] = df_filtered[col]
     df_cleaned = df_subtracted[df_subtracted['Statistic.recvSeq2'] != 0]
     df_cleaned['recvNum2_ratio'] = df_cleaned['Statistic.recvNum2'] / df_cleaned['Statistic.recvSeq2']
-    df_cleaned['computeNum2_ratio'] = (df_cleaned['Statistic.compute1num2'] ) / \
-                                       df_cleaned['Statistic.recvSeq2']
-    return df_cleaned['recvNum2_ratio'].median(), df_cleaned['computeNum2_ratio'].median()
+    df_cleaned['computeNum2_ratio'] = (df_cleaned['Statistic.compute1num2']) / \
+                                      df_cleaned['Statistic.recvSeq2']
+    df_cleaned['computeNum2_and1_ratio'] = (df_cleaned['Statistic.compute1num2'] + df_cleaned[
+        'Statistic.compute2num2']) / \
+                                           df_cleaned['Statistic.recvSeq2']
+    # 计算中位数并保留两位小数
+    recvNum2_ratio_median = round(df_cleaned['recvNum2_ratio'].median(), 2)
+    computeNum2_ratio_median = round(df_cleaned['computeNum2_ratio'].median(), 2)
+    computeNum2_and1_ratio_median = round(df_cleaned['computeNum2_and1_ratio'].median(), 2)
+
+    return recvNum2_ratio_median, computeNum2_ratio_median, computeNum2_and1_ratio_median
 
 
 def load_data(file_paths):
@@ -23,11 +31,14 @@ def load_data(file_paths):
 def plot_medians(results, labels):
     recvNum2_medians = [result[0] for result in results]
     computeNum4_medians = [result[1] for result in results]
+    computeNum2_and1_ratio = [result[2] for result in results]
     x = range(len(labels))
-    width = 0.35
-    fig, ax = plt.subplots()
+    width = 0.25
+    fig, ax = plt.subplots(figsize=(8, 6))
     rects1 = ax.bar(x, recvNum2_medians, width, label='recvNum2/recvSeq2')
-    rects2 = ax.bar([p + width for p in x], computeNum4_medians, width, label='(compute1num2+compute2num4)/recvSeq2')
+    rects3 = ax.bar([p + width for p in x], computeNum2_and1_ratio, width, label='(compute1num2+compute2num4)/recvSeq2')
+    rects2 = ax.bar([p + 2 * width for p in x], computeNum4_medians, width,
+                    label='(compute1num2+compute2num4)/recvSeq2')
     ax.set_ylabel('Medians')
     ax.set_title('Median Ratios by Frame Setup')
     ax.set_xticks([p + width / 2 for p in x])
@@ -35,6 +46,7 @@ def plot_medians(results, labels):
     ax.legend()
     ax.bar_label(rects1, padding=3)
     ax.bar_label(rects2, padding=3)
+    ax.bar_label(rects3, padding=3)
     fig.tight_layout()
     plt.show()
 

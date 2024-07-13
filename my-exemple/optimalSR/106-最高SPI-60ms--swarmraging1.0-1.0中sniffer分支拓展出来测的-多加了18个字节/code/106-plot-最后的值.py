@@ -41,7 +41,7 @@ def plot_medians(results, labels):
     rects1 = ax.bar(x, recvNum4_medians, width, label='Reception Ratio')
     rects2 = ax.bar([p + width for p in x], computeNum4_medians, width, label='Ranging Ratio')
     ax.set_ylabel('Reception(Ranging) Ratio',fontsize=14)
-    ax.set_xlabel('Number of drones',fontsize=14)
+    ax.set_xlabel('Number of UAVs',fontsize=14)
     # ax.set_title('')
     ax.set_xticks([p + width / 2 for p in x])
     ax.set_xticklabels(labels)

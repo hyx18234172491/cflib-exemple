@@ -17,10 +17,11 @@ def process_data(df):
     # Clean data by filtering out entries with 'Statistic.recvSeq4' equal to zero
     df_cleaned = df_subtracted[df_subtracted['Statistic.recvSeq4'] != 0]
 
-    # Calculate new ratios
-    df_cleaned['recvNum4_ratio'] = df_cleaned['Statistic.recvNum4'] / df_cleaned['Statistic.recvSeq4']
-    df_cleaned['computeNum4_ratio'] = (df_cleaned['Statistic.compute1num4'] + df_cleaned['Statistic.compute2num4']) / \
-                                      df_cleaned['Statistic.recvSeq4']
+    # Calculate new ratios and round them to two decimal places
+    df_cleaned['recvNum4_ratio'] = round(df_cleaned['Statistic.recvNum4'] / df_cleaned['Statistic.recvSeq4'], 2)
+    df_cleaned['computeNum4_ratio'] = round(
+        (df_cleaned['Statistic.compute1num4'] + df_cleaned['Statistic.compute2num4']) / df_cleaned[
+            'Statistic.recvSeq4'], 2)
 
     # Retrieve the last row of the dataframe
     last_row = df_cleaned.iloc[-1]
@@ -37,10 +38,11 @@ def plot_medians(results, labels):
     x = range(len(labels))
     width = 0.35
     fig, ax = plt.subplots()
-    rects1 = ax.bar(x, recvNum4_medians, width, label='recvNum4/recvSeq4')
-    rects2 = ax.bar([p + width for p in x], computeNum4_medians, width, label='(compute1num4+compute2num4)/recvSeq4')
-    ax.set_ylabel('Medians')
-    ax.set_title('Median Ratios by Frame Setup')
+    rects1 = ax.bar(x, recvNum4_medians, width, label='Reception Ratio')
+    rects2 = ax.bar([p + width for p in x], computeNum4_medians, width, label='Ranging Ratio')
+    ax.set_ylabel('Reception(Ranging) Ratio',fontsize=14)
+    ax.set_xlabel('Number of UAVs',fontsize=14)
+    # ax.set_title('')
     ax.set_xticks([p + width / 2 for p in x])
     ax.set_xticklabels(labels)
     ax.legend()

@@ -3,17 +3,28 @@ import matplotlib.pyplot as plt
 
 
 def process_data(df):
+    # Filter data by 'logNumber'
     df_filtered = df[df['logNumber'] == 'log0']
     numeric_cols = df_filtered.select_dtypes(include='number').columns
+
+    # Subtract initial values from numeric columns
     df_subtracted = df_filtered[numeric_cols] - df_filtered[numeric_cols].iloc[0]
+
+    # Copy non-numeric columns to the subtracted dataframe
     for col in df_filtered.columns.difference(numeric_cols):
         df_subtracted[col] = df_filtered[col]
-    df_cleaned = df_subtracted[df_subtracted['Statistic.recvSeq4'] != 0]
-    df_cleaned['recvNum4_ratio'] = df_cleaned['Statistic.recvNum4'] / df_cleaned['Statistic.recvSeq4']
-    df_cleaned['computeNum4_ratio'] = (df_cleaned['Statistic.compute1num4']) / \
-                                      df_cleaned['Statistic.recvSeq4']
-    return df_cleaned['recvNum4_ratio'].median(), df_cleaned['computeNum4_ratio'].median()
 
+    # Clean data by filtering out entries with 'Statistic.recvSeq4' equal to zero
+    df_cleaned = df_subtracted[df_subtracted['Statistic.recvSeq4'] != 0]
+
+    # Calculate new ratios
+    df_cleaned['recvNum4_ratio'] = df_cleaned['Statistic.recvNum4'] / df_cleaned['Statistic.recvSeq4']
+    df_cleaned['computeNum4_ratio'] = (df_cleaned['Statistic.compute1num4'] + df_cleaned['Statistic.compute2num4']) / \
+                                      df_cleaned['Statistic.recvSeq4']
+
+    # Retrieve the last row of the dataframe
+    last_row = df_cleaned.iloc[-1]
+    return last_row['recvNum4_ratio'], last_row['computeNum4_ratio']
 
 def load_data(file_paths):
     data_frames = [pd.read_csv(path) for path in file_paths]
@@ -41,15 +52,17 @@ def plot_medians(results, labels):
 
 # Example usage
 file_paths = [
-    # '../data/5架1.0-60.csv',
+    '../data/5架2.0-30+rand(60).csv',
+    '../data/10架2.0-30+rand(60).csv',
+    '../data/15架2.0-30+rand(60).csv',
+    '../data/20架2.0-30+rand(60).csv',
+    # # '../data/25架2.0-30+rand(60)-充电-去排序.csv',
+    '../data/25架2.0-30+rand(60).csv',
     # '../data/10架1.0-60.csv',
     # '../data/15架1.0-60.csv',
     # '../data/20架1.0-60.csv',
-    '../data/5架1.0-30+rand(60).csv',
-    '../data/10架1.0-30+rand(60).csv',
-    '../data/15架1.0-30+rand(60).csv',
-    '../data/20架1.0-30+rand(60).csv',
-    '../data/25架-1.0-30+rand(60)-1.csv',
+    # '../data/5架1.0-30+rand(60).csv',
+    # '../data/10架1.0-30+rand(60).csv',
 
     # '../data/25架1.0-60.csv',
     # '../data/10架1.0-30+rand(60).csv',
@@ -61,6 +74,8 @@ labels = [
     '15-frame',
     '20-frame',
     '25-frame',
+    # '5-frame',
+    # '10-frame',
     # '21-frame',
 ]
 

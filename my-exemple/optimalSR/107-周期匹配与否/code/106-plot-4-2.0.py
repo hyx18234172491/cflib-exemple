@@ -40,7 +40,7 @@ def plot_medians(results, labels):
                     label='swarm ranging 1.0 Ranging')
     rects3 = ax.bar([p + 2 * width for p in x], computeNum2_and1_ratio, width, label='swarm ranging 2.0 Ranging')
 
-    ax.set_ylabel('Reception (Ranging) Ratio',fontsize=16)
+    ax.set_ylabel('Reception (Ranging) Rate',fontsize=16)
     ax.set_xlabel('Period (ms)',fontsize=16)
     # ax.set_title('Median Ratios by Frame Setup')
     ax.set_xticks([p + width / 2 for p in x])

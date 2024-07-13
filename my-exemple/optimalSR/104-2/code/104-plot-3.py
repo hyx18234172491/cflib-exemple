@@ -49,25 +49,25 @@ new_data, new_medians = process_files(new_file_paths, new=True)
 packet_loss_rates = [int(path.split('-')[3].replace('loss', '')) for path in old_file_paths]
 
 # Plotting
-fig, ax = plt.subplots(figsize=(9, 6))
-width = 0.26
+fig, ax = plt.subplots(figsize=(8, 6))
+width = 0.16
 space_between_groups = 0.15
 
 # Adjust the positions for the bars
 positions3 = [i * (3 * width + space_between_groups) for i in range(len(packet_loss_rates))]  # New data at the beginning
-positions1 = [p + width for p in positions3]  # Old data, first metric
-positions2 = [p + width for p in positions1]  # Old data, second metric
+positions2 = [p + width for p in positions3]  # Old data, first metric
+positions1 = [p + width for p in positions2]  # Old data, second metric
 
 
 # Plot the new bars (new data) at the beginning
 bars3 = ax.bar(positions3, new_medians, width=width, label='Swarm ranging 1.0')
 
 # Plot the original bars (previous data)
-bars1 = ax.bar(positions1, [m[0] for m in old_medians], width=width, label='Swarm ranging 1.0 with 3 lastTxTimestamp')
+# bars1 = ax.bar(positions1, [m[0] for m in old_medians], width=width, label='Swarm ranging 1.0 with 3 lastTxTimestamp')
 bars2 = ax.bar(positions2, [m[1] for m in old_medians], width=width, label='Swarm ranging 2.0')
 
 # Add value annotations to all bars
-for bars in [bars3, bars1, bars2]:
+for bars in [bars3, bars2]:
     for bar in bars:
         height = bar.get_height()
         ax.annotate(f'{height:.2f}', xy=(bar.get_x() + bar.get_width() / 2, height), xytext=(0, 3), textcoords="offset points", ha='center', va='bottom')
@@ -77,8 +77,8 @@ ax.set_xticks([p + width for p in positions3])
 ax.set_xticklabels([f"{rate}%" for rate in packet_loss_rates])
 
 # ax.set_title('Median Computed Ratios by Packet Loss Rate (Updated Positions)')
-ax.set_xlabel('Packet Loss Rate',fontsize=16)
-ax.set_ylabel('Ranging Rate',fontsize=16)
+ax.set_xlabel('Packet Loss Rate')
+ax.set_ylabel('Ranging Rate')
 ax.legend()
 
 plt.show()

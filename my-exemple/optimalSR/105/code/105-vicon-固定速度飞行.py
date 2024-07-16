@@ -81,7 +81,7 @@ URI2 = 'radio://0/80/2M/26E7E7E7E7'  # uwb1
 
 DEFAULT_HEIGHT = 0.5
 
-flight_duration_sum = 25
+flight_duration_sum = 35
 stage_duration = 1.5
 
 list0 = [
@@ -91,12 +91,14 @@ list0 = [
 
 list1 = [['1']]
 for i in range(int(flight_duration_sum / stage_duration) + 1):
-    if i % 3 == 0:
+    if i % 4 == 0:
         list1.append([1, 0, stage_duration])  # vx,vy,stage_duration
-    elif i % 3 == 1:
+    elif i % 4 == 1:
         list1.append([0, 0, stage_duration])
-    else:
+    elif i % 4 == 2:
         list1.append([-1, 0, stage_duration])
+    else:
+        list1.append([0, 0, stage_duration])
 
 # sequences = [list0, list1]
 sequences = [list0, list1]

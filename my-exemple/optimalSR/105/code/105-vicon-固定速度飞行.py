@@ -62,11 +62,14 @@ from cflib.crazyflie import Crazyflie
 from cflib.crazyflie.syncCrazyflie import SyncCrazyflie
 from cflib.positioning.motion_commander import MotionCommander
 from cflib.utils import uri_helper
+import warnings
 
+# 忽略所有警告
+warnings.filterwarnings("ignore")
 # Change uris and sequences according to your setup
 
-URI1 = 'radio://0/80/2M/31E7E7E7E7'  # uwb2
-URI2 = 'radio://0/80/2M/55E7E7E7E7'  # uwb1
+URI1 = 'radio://0/80/2M/14E7E7E7E7'  # uwb2
+URI2 = 'radio://0/80/2M/26E7E7E7E7'  # uwb1
 # URI3 = 'radio://0/80/2M/53E7E7E7E7'  #
 # URI4 = 'radio://0/80/2M/58E7E7E7E7'  #
 # URI5 = 'radio://0/80/2M/1147E7E7E7'  #
@@ -76,26 +79,27 @@ URI2 = 'radio://0/80/2M/55E7E7E7E7'  # uwb1
 # URI9 = 'radio://0/80/2M/43E7E7E7E7'  #
 
 
-high = 0.5
+DEFAULT_HEIGHT = 0.5
 
-sequences = [
-    # 组号，x，y，z, yaw, duration
-]
 flight_duration_sum = 25
 stage_duration = 1.5
 
+list0 = [
+    ['0'],
+    [0, 0, flight_duration_sum]
+]
+
 list1 = [['1']]
 for i in range(int(flight_duration_sum / stage_duration) + 1):
-    if i % 2 == 0:
-        list1.append([1, 1, 0, 0, 0, stage_duration])
+    if i % 3 == 0:
+        list1.append([1, 0, stage_duration])  # vx,vy,stage_duration
+    elif i % 3 == 1:
+        list1.append([0, 0, stage_duration])
     else:
-        list1.append([1, -1, 0, 0, 0, stage_duration])
+        list1.append([-1, 0, stage_duration])
 
-sequences.append([
-    ['0'],
-    [0, 0, 0, high, 0, flight_duration_sum]
-])
-sequences.append(list1)
+# sequences = [list0, list1]
+sequences = [list0, list1]
 
 seq_args = {
     URI1: [sequences[0]],
@@ -129,14 +133,6 @@ def wait_for_param_download(scf):
     print('Parameters downloaded for', scf.cf.link_uri)
 
 
-def take_off(cf):
-    take_off_time = 1
-    print(f'takeoff high:{high}')
-    commander = cf.high_level_commander
-    commander.takeoff(high, take_off_time)
-    time.sleep(take_off_time)
-
-
 def land(cf, position):
     landing_time = 1.0
     sleep_time = 0.1
@@ -156,28 +152,26 @@ def land(cf, position):
 
 
 def run_sequence(scf, sequence):
-    try:
-        cf = scf.cf
-
-        take_off(cf)
-        commander = cf.high_level_commander
-        for i in range(1, len(sequence)):
-            position = sequence[i]
-            print('Setting position {}'.format(position))
-            # x ,y ,z, 不知道, time
-            commander.go_to(x=position[1], y=position[2], z=position[3], yaw=0, duration_s=3, relative=True)
-            time.sleep(3)
-    except Exception as e:
-        print(e)
+    print('run sequencce')
+    with MotionCommander(scf, default_height=DEFAULT_HEIGHT) as mc:
+        try:
+            print(len(sequence))
+            for i in range(1, len(sequence)):
+                mc.start_linear_motion(sequence[i][0], sequence[i][1], 0)
+                time.sleep(sequence[i][2])
+                print('line move')
+        except:
+            print('飞行异常')
+        mc.land(0.5)
 
 
 def logCallback(timestamp, data, logconf):
-    global log_var, log_data,ENABLE_MOTION_CAPTURE
+    global log_var, log_data, ENABLE_MOTION_CAPTURE
     temp = {}
     temp['timestamp'] = timestamp
     temp['logNumber'] = logconf.name
     print(logconf.name)
-    for log_var_name, log_var_type in log_var.items():
+    for log_var_name, log_var_type in log_var[int(logconf.name)].items():
         temp[log_var_name] = data[log_var_name]
     if ENABLE_MOTION_CAPTURE:
         try:
@@ -196,35 +190,36 @@ def logCallback(timestamp, data, logconf):
 
 
 def addLogConfig(scf, sequence):
-    if str(sequence[0][0]) == '0':
-        logconf = LogConfig(name='log' + str(sequence[0][0]), period_in_ms=48)
-        global log_var
-        for log_var_name, log_var_type in log_var.items():
-            logconf.add_variable(log_var_name, log_var_type)
-        scf.cf.log.add_config(logconf)
-        logconf.data_received_cb.add_callback(logCallback)
-        logconf.start()
+    logconf = LogConfig(name=str(sequence[0][0]), period_in_ms=48)
+    global log_var
+    for log_var_name, log_var_type in log_var[int(sequence[0][0])].items():
+        logconf.add_variable(log_var_name, log_var_type)
+    scf.cf.log.add_config(logconf)
+    logconf.data_received_cb.add_callback(logCallback)
+    logconf.start()
 
 
 if __name__ == '__main__':
     ENABLE_MOTION_CAPTURE = False
-    ENABLE_FLY_TASK = False
+    ENABLE_FLY_TASK = True
 
-    log_var = {
-        'Statistic.recvSeq1': 'uint16_t',
-        'Statistic.recvNum1': 'uint16_t',
-        'Statistic.compute1num1': 'uint16_t',
-        'Statistic.compute2num1': 'uint16_t',
-        'Statistic.dist1': 'int16_t',
-        'Statistic.distSrc1': 'uint8_t',
-
-        'Statistic.recvSeq2': 'uint16_t',
-        'Statistic.recvNum2': 'uint16_t',
-        'Statistic.compute1num2': 'uint16_t',
-        'Statistic.compute2num2': 'uint16_t',
-        'Statistic.dist2': 'int16_t',
-        'Statistic.distSrc2': 'uint8_t',
-    }
+    log_var = [{
+        'Statistic.recvSeq3': 'uint16_t',
+        'Statistic.recvNum3': 'uint16_t',
+        'Statistic.compute1num3': 'uint16_t',
+        'Statistic.compute2num3': 'uint16_t',
+        'Statistic.dist3': 'int16_t',
+        'Statistic.distReal3': 'float',
+    },
+        {
+            'Statistic.recvSeq1': 'uint16_t',
+            'Statistic.recvNum1': 'uint16_t',
+            'Statistic.compute1num1': 'uint16_t',
+            'Statistic.compute2num1': 'uint16_t',
+            'Statistic.dist1': 'int16_t',
+            'Statistic.distReal1': 'float',
+        }
+    ]
 
     log_data = pd.DataFrame()
 
@@ -251,5 +246,8 @@ if __name__ == '__main__':
 
         swarm.parallel(addLogConfig, args_dict=seq_args)
         if ENABLE_FLY_TASK:
+            print('start run_sequencce')
             swarm.parallel(run_sequence, args_dict=seq_args)
+        else:
+            time.sleep(10)
     log_data.to_csv('test.csv')

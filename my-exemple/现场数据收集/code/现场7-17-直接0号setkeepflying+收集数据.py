@@ -54,6 +54,8 @@ def log_stab_callback(timestamp, data, logconf):
         df = pd.concat([df, new_row_df], ignore_index=True)
 
 def simple_log_async(scf, logconf):
+    cf = scf.cf
+    cf.param.set_value('relative_ctrl.keepFlying', 1)
 
     cf = scf.cf
     # group = 'relative_ctrl'
@@ -129,3 +131,5 @@ if __name__ == '__main__':
         print(f"Exception occurred: {e}")
     finally:
         save_df_to_csv()
+        cf = scf.cf
+        cf.param.set_value('relative_ctrl.keepFlying', 0)

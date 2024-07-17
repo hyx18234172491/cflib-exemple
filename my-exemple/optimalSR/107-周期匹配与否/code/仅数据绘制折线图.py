@@ -8,7 +8,7 @@ y_recvPacketNum_var_SR1 = [1428, 1659, 2001, 2499, 3333, 4999]
 y_rangingNum_var_SR1 = [1422, 1409, 1423, 1419, 1421, 1423]
 
 # 绘图
-plt.figure(figsize=(8, 6))
+plt.figure(figsize=(8.7, 6.4))
 plt.plot(x_label, y_recvPacketNum_70_SR1, label='Received Packet (variable period)',
          linestyle='-', marker='o', linewidth=2, markersize=10)
 plt.plot(x_label, y_rangingNum_70_SR1, label='Ranging (variable period)',
@@ -19,10 +19,12 @@ plt.plot(x_label, y_rangingNum_var_SR1, label='Ranging (70ms period)',
          linestyle=':', marker='d', linewidth=2, markersize=10)
 
 # 自定义图表
-plt.xlabel('Period(ms)',fontsize=16)
-plt.ylabel('Receive(Ranging) count',fontsize=16)
+plt.xlabel('Period(ms)',fontsize=20)
+plt.ylabel('Receive(Ranging) count',fontsize=20)
 # plt.title('Packet and Ranging Numbers at Different Distances (Enhanced Markers)')
-plt.legend()
+plt.legend(fontsize=18)
+plt.xticks(fontsize=18)
+plt.yticks(fontsize=18)
 plt.gca().invert_xaxis()
 plt.grid(True)
 

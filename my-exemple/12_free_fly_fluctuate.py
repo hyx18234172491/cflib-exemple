@@ -10,9 +10,9 @@ from cflib.positioning.motion_commander import MotionCommander
 from cflib.utils import uri_helper
 
 # URI = uri_helper.uri_from_env(default='radio://0/80/2M/50E7E7E7E7')
-URI = uri_helper.uri_from_env(default='radio://0/80/2M/E7E7E7E718')
+URI = uri_helper.uri_from_env(default='radio://0/80/2M/53E7E7E7E7')
 
-DEFAULT_HEIGHT = 0.3
+DEFAULT_HEIGHT = 1.2
 BOX_LIMIT = 0.5
 
 
@@ -22,6 +22,9 @@ def take_off(scf):
     # absolute_height_m,duration_s(持续秒数)
     commander.takeoff(0.4, duration)
     time.sleep(duration)
+
+def land(scf):
+    pass
 
 
 import keyboard
@@ -35,26 +38,30 @@ y_vel = 0
 def on_up_arrow():
     print("向上键被按下")
     global x_vel, y_vel
-    x_vel = random.randint(0, 3) % 3 * 0.1 + 0.3
+    x_vel = 0.1
+    y_vel = 0
 
-    choice = random.randint(0, 2)
-    if choice % 1 == 1:
-        y_vel = 0.02
-    else:
-        y_vel = -0.02
+
+def on_down_arrow():
+    print("向下键被按下")
+    global x_vel, y_vel
+    x_vel = -0.1
+    y_vel = 0
 
 
 def on_left_arrow():
-    print("向左键被按下")
+    print("向 左键被按下")
     global x_vel, y_vel
     x_vel = 0
-    y_vel = random.randint(0, 3) * 0.1 + 0.3
+    y_vel = 0.1
 
-    choice = random.randint(0, 2)
-    if choice % 1 == 1:
-        x_vel = 0.02
-    else:
-          x_vel = -0.02
+
+def on_right_arrow():
+    print("向右键被按下")
+    global x_vel, y_vel
+    x_vel = 0
+    y_vel = -0.1
+
 
 def on_space():
     print("空格键被按下")
@@ -73,6 +80,8 @@ def no_key_pressed():
 # 注册热键
 keyboard.on_press_key("up", lambda _: on_up_arrow())
 keyboard.on_press_key("left", lambda _: on_left_arrow())
+keyboard.on_press_key("right", lambda _: on_right_arrow())
+keyboard.on_press_key("down", lambda _: on_down_arrow())
 keyboard.on_press_key("space", lambda _: on_space())
 
 if __name__ == '__main__':
@@ -80,15 +89,27 @@ if __name__ == '__main__':
     cflib.crtp.init_drivers()
 
     with SyncCrazyflie(URI, cf=Crazyflie(rw_cache='./cache')) as scf:
+        cf = scf.cf
+        group = 'relative_ctrl'
+        name = 'keepFlying'
+        full_name = group + "." + name
+        cf.param.set_value(full_name, 1)
+        value = cf.param.get_value(full_name)
+        print(value)
         with MotionCommander(scf, default_height=DEFAULT_HEIGHT) as mc:
-            take_off(scf)  # 先takeoff
+
             try:
                 while True:
                     if not keyboard.is_pressed("up") and not keyboard.is_pressed("left") and not keyboard.is_pressed(
-                            "space"):
+                            "space") and not keyboard.is_pressed("right") and not keyboard.is_pressed("down"):
                         no_key_pressed()
 
                         mc.start_linear_motion(x_vel, y_vel, 0)
                         time.sleep(0.1)  # 延迟以减少CPU使用率
             except KeyboardInterrupt:
-                print("程序已终止")
+                cf.param.set_value(full_name, 0)
+            finally:
+                # Ensure the drone stops moving and parameters are reset
+                # mc.stop()
+                cf.param.set_value(full_name, 0)
+                print("Cleanup complete, parameters reset and drone stopped.")

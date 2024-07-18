@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Load the data
-file_path = '../data/1m-s-第一组.csv'  # Replace with your actual file path
+file_path = '../data/1m-s-60ms-第一组.csv'  # Replace with your actual file path
 data = pd.read_csv(file_path)
 
 # Filter the data where logNumber is 0

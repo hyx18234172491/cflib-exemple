@@ -68,8 +68,8 @@ import warnings
 warnings.filterwarnings("ignore")
 # Change uris and sequences according to your setup
 
-URI1 = 'radio://0/80/2M/40E7E7E7E7'  # uwb2
-URI2 = 'radio://0/80/2M/3E7E7E7E7'  # uwb1
+URI1 = 'radio://0/80/2M/33E7E7E7E7'  # uwb2
+URI2 = 'radio://0/80/2M/40E7E7E7E7'  # uwb1
 # URI3 = 'radio://0/80/2M/53E7E7E7E7'  #
 # URI4 = 'radio://0/80/2M/58E7E7E7E7'  #
 # URI5 = 'radio://0/80/2M/1147E7E7E7'  #
@@ -154,6 +154,8 @@ def land(cf, position):
 
 
 def run_sequence(scf, sequence):
+    if (int(sequence[0][0]) == 0):
+        return
     print('run sequencce')
     with MotionCommander(scf, default_height=DEFAULT_HEIGHT) as mc:
         try:
@@ -165,6 +167,13 @@ def run_sequence(scf, sequence):
         except:
             print('飞行异常')
         mc.land(0.5)
+
+
+import math
+
+
+def calculate_distance(x1, y1, z1, x2, y2, z2):
+    return math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2 + (z2 - z1) ** 2)
 
 
 def logCallback(timestamp, data, logconf):
@@ -185,6 +194,11 @@ def logCallback(timestamp, data, logconf):
                 temp[name + 'x'] = obj.position[0]
                 temp[name + 'y'] = obj.position[1]
                 temp[name + 'z'] = obj.position[2]
+            drone1_x, drone1_y, drone1_z = temp.get('UAV0x', 0), temp.get('UAV0y', 0), temp.get('UAV0z', 0)
+            drone3_x, drone3_y, drone3_z = temp.get('UAV3x', 0), temp.get('UAV3y', 0), temp.get('UAV3z', 0)
+            distance_3_to_1 = calculate_distance(drone3_x, drone3_y, drone3_z, drone1_x, drone1_y, drone1_z)
+            temp['distance_3_to_1'] = distance_3_to_1
+            print(temp['distance_3_to_1'])
         except:
             pass
 
@@ -193,8 +207,9 @@ def logCallback(timestamp, data, logconf):
 
 
 def addLogConfig(scf, sequence):
-    logconf = LogConfig(name=str(sequence[0][0]), period_in_ms=50)
-    global log_var
+    global log_var, PERIOD
+    logconf = LogConfig(name=str(sequence[0][0]), period_in_ms=PERIOD)
+
     for log_var_name, log_var_type in log_var[int(sequence[0][0])].items():
         logconf.add_variable(log_var_name, log_var_type)
     scf.cf.log.add_config(logconf)
@@ -203,8 +218,9 @@ def addLogConfig(scf, sequence):
 
 
 if __name__ == '__main__':
-    ENABLE_MOTION_CAPTURE = False
+    ENABLE_MOTION_CAPTURE = True
     ENABLE_FLY_TASK = True
+    PERIOD = 100
 
     log_var = [{
         'Statistic.recvSeq3': 'uint16_t',
@@ -212,7 +228,6 @@ if __name__ == '__main__':
         'Statistic.compute1num3': 'uint16_t',
         'Statistic.compute2num3': 'uint16_t',
         'Statistic.dist3': 'int16_t',
-        'Statistic.distReal3': 'float',
     },
         {
             'Statistic.recvSeq1': 'uint16_t',
@@ -220,7 +235,6 @@ if __name__ == '__main__':
             'Statistic.compute1num1': 'uint16_t',
             'Statistic.compute2num1': 'uint16_t',
             'Statistic.dist1': 'int16_t',
-            'Statistic.distReal1': 'float',
         }
     ]
     log_data = pd.DataFrame()
@@ -252,8 +266,8 @@ if __name__ == '__main__':
                 swarm.parallel(run_sequence, args_dict=seq_args)
             else:
                 time.sleep(10)
-        log_data.to_csv('../data/test.csv')
+        log_data.to_csv('exp2.csv')
     except:
         print('except')
     finally:
-        log_data.to_csv('../data/test.csv')
+        log_data.to_csv('exp2.csv')

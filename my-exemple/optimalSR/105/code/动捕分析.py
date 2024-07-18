@@ -2,11 +2,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # 加载数据
-data_path = '../data/7-18-50ms-1ms-第四组-4.csv'  # 替换为你的文件路径
+data_path = '../data/7-18-50ms-0.7m每秒-第一组.csv'  # 替换为你的文件路径
 data = pd.read_csv(data_path)
 
 # 筛选 logNumber 为 0 的数据
 filtered_data = data[data['logNumber'] == 1]
+filtered_data = filtered_data[(filtered_data['timestamp'] < 120000)]
 filtered_data['distance_3_to_1'] = filtered_data['distance_3_to_1']*100
 # 绘制折线图
 plt.figure(figsize=(12, 6))

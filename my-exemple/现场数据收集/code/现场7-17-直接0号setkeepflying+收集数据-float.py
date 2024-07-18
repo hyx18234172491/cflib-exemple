@@ -10,7 +10,7 @@ import pandas as pd
 import xlsxwriter
 
 # URI to the Crazyflie to connect to
-uri = 'radio://0/80/2M/3E7E7E7E7'
+uri = 'radio://0/80/2M/33E7E7E7E7'
 lock = threading.Lock()
 import pandas as pd
 import math
@@ -95,10 +95,10 @@ if __name__ == '__main__':
     lg_stab = LogConfig(name='Statistic', period_in_ms=60)
     lg_stab.add_variable('Ranging.distTo0', 'int16_t')
     lg_stab.add_variable('Ranging.truthDistTo0', 'float')
-    lg_stab.add_variable('Ranging.distTo1', 'int16_t')
-    lg_stab.add_variable('Ranging.truthDistTo1', 'float')
-    # lg_stab.add_variable('Ranging.distTo2', 'int16_t')
-    # lg_stab.add_variable('Ranging.truthDistTo2', 'float')
+    # lg_stab.add_variable('Ranging.distTo1', 'int16_t')
+    # lg_stab.add_variable('Ranging.truthDistTo1', 'float')
+    lg_stab.add_variable('Ranging.distTo2', 'int16_t')
+    lg_stab.add_variable('Ranging.truthDistTo2', 'float')
     # lg_stab.add_variable('Ranging.distTo3', 'float')
     # lg_stab.add_variable('Ranging.truthDistTo3', 'float')
     # lg_stab.add_variable('Ranging.distTo4', 'float')

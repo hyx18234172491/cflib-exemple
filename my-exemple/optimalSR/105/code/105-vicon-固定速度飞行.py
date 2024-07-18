@@ -68,8 +68,8 @@ import warnings
 warnings.filterwarnings("ignore")
 # Change uris and sequences according to your setup
 
-URI1 = 'radio://0/80/2M/14E7E7E7E7'  # uwb2
-URI2 = 'radio://0/80/2M/26E7E7E7E7'  # uwb1
+URI1 = 'radio://0/80/2M/40E7E7E7E7'  # uwb2
+URI2 = 'radio://0/80/2M/3E7E7E7E7'  # uwb1
 # URI3 = 'radio://0/80/2M/53E7E7E7E7'  #
 # URI4 = 'radio://0/80/2M/58E7E7E7E7'  #
 # URI5 = 'radio://0/80/2M/1147E7E7E7'  #
@@ -79,9 +79,9 @@ URI2 = 'radio://0/80/2M/26E7E7E7E7'  # uwb1
 # URI9 = 'radio://0/80/2M/43E7E7E7E7'  #
 
 
-DEFAULT_HEIGHT = 0.5
+DEFAULT_HEIGHT = 0.4
 
-flight_duration_sum = 35
+flight_duration_sum = 50
 stage_duration = 1.5
 
 list0 = [
@@ -173,6 +173,7 @@ def logCallback(timestamp, data, logconf):
     temp['timestamp'] = timestamp
     temp['logNumber'] = logconf.name
     print(logconf.name)
+    print(data)
     for log_var_name, log_var_type in log_var[int(logconf.name)].items():
         temp[log_var_name] = data[log_var_name]
     if ENABLE_MOTION_CAPTURE:
@@ -192,7 +193,7 @@ def logCallback(timestamp, data, logconf):
 
 
 def addLogConfig(scf, sequence):
-    logconf = LogConfig(name=str(sequence[0][0]), period_in_ms=48)
+    logconf = LogConfig(name=str(sequence[0][0]), period_in_ms=50)
     global log_var
     for log_var_name, log_var_type in log_var[int(sequence[0][0])].items():
         logconf.add_variable(log_var_name, log_var_type)
@@ -203,7 +204,7 @@ def addLogConfig(scf, sequence):
 
 if __name__ == '__main__':
     ENABLE_MOTION_CAPTURE = False
-    ENABLE_FLY_TASK = False
+    ENABLE_FLY_TASK = True
 
     log_var = [{
         'Statistic.recvSeq3': 'uint16_t',
@@ -222,34 +223,37 @@ if __name__ == '__main__':
             'Statistic.distReal1': 'float',
         }
     ]
-
     log_data = pd.DataFrame()
+    try:
+        if ENABLE_MOTION_CAPTURE:
+            try:
+                import motioncapture
 
-    if ENABLE_MOTION_CAPTURE:
-        try:
-            import motioncapture
+                mc = motioncapture.connect("vicon", {"hostname": "172.20.10.6"})
+                print("connect sucess")
+            except:
+                print("motion capture connect fail")
+                pass
 
-            mc = motioncapture.connect("vicon", {"hostname": "172.20.10.6"})
-            print("connect sucess")
-        except:
-            print("motion capture connect fail")
-            pass
+        cflib.crtp.init_drivers()
 
-    cflib.crtp.init_drivers()
+        factory = CachedCfFactory(rw_cache='./cache')
+        with Swarm(uris, factory=factory) as swarm:
+            # The current values of all parameters are downloaded as a part of the
+            # connections sequence. Since we have 10 copters this is clogging up
+            # communication and we have to wait for it to finish before we start
+            # flying.
+            print('Waiting for parameters to be downloaded...')
+            swarm.parallel(wait_for_param_download)
 
-    factory = CachedCfFactory(rw_cache='./cache')
-    with Swarm(uris, factory=factory) as swarm:
-        # The current values of all parameters are downloaded as a part of the
-        # connections sequence. Since we have 10 copters this is clogging up
-        # communication and we have to wait for it to finish before we start
-        # flying.
-        print('Waiting for parameters to be downloaded...')
-        swarm.parallel(wait_for_param_download)
-
-        swarm.parallel(addLogConfig, args_dict=seq_args)
-        if ENABLE_FLY_TASK:
-            print('start run_sequencce')
-            swarm.parallel(run_sequence, args_dict=seq_args)
-        else:
-            time.sleep(10)
-    log_data.to_csv('../data/test.csv')
+            swarm.parallel(addLogConfig, args_dict=seq_args)
+            if ENABLE_FLY_TASK:
+                print('start run_sequencce')
+                swarm.parallel(run_sequence, args_dict=seq_args)
+            else:
+                time.sleep(10)
+        log_data.to_csv('../data/test.csv')
+    except:
+        print('except')
+    finally:
+        log_data.to_csv('../data/test.csv')

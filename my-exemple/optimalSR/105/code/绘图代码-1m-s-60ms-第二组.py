@@ -2,14 +2,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Load the data
-file_path = '../data/1m-s-50ms-第一组.csv'  # Replace with your actual file path
+file_path = '../data/1m-s-60ms-第二组.csv'  # Replace with your actual file path
 data = pd.read_csv(file_path)
 
 # Filter the data where logNumber is 0
 filtered_data = data[data['logNumber'] == 0]
 
 # Additional timestamp filtering
-# filtered_data = filtered_data[(filtered_data['timestamp'] > 375000) & (filtered_data['timestamp'] < 400000)]
+filtered_data = filtered_data[(filtered_data['timestamp'] > 25000) & (filtered_data['timestamp'] < 50000)]
 
 # Multiply Statistic.distReal3 by 100
 filtered_data['Statistic.distReal3'] *= 100

@@ -2,7 +2,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-
 # 加载数据
 data_path = '../../data/7-18-一架50-一架70ms-1.csv'  # 替换为你的文件路径
 data = pd.read_csv(data_path)

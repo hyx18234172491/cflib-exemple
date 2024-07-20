@@ -7,8 +7,17 @@ data = pd.read_csv(data_path)
 
 # 筛选 logNumber 为 0 的数据
 filtered_data = data[data['logNumber'] == 1]
-# filtered_data = filtered_data[(filtered_data['timestamp'] < 60000)]
+# filtered_data = filtered_data[
+#     ((filtered_data['timestamp'] > 24800) & (filtered_data['timestamp'] < 25600))
+#
+#     ]
 filtered_data['distance_3_to_1'] = filtered_data['distance_3_to_1']*100
+# 移除没有更新的数值
+filtered_data = filtered_data[
+    (filtered_data['Statistic.compute2num1'] != filtered_data['Statistic.compute2num1'].shift()) |
+    (filtered_data['Statistic.compute1num1'] != filtered_data['Statistic.compute1num1'].shift())
+    ]
+
 # 绘制折线图
 plt.figure(figsize=(12, 6))
 plt.plot(filtered_data['timestamp'], filtered_data['Statistic.dist1'], label='Statistic.dist1', marker='o', linestyle='-')

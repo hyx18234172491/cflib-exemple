@@ -21,17 +21,17 @@ def getPlotData():
         ((filtered_data['timestamp'] > 30000) & (filtered_data['timestamp'] < 31500)) |
         ((filtered_data['timestamp'] > 41900) & (filtered_data['timestamp'] < 43800)) |
         ((filtered_data['timestamp'] > 54000) & (filtered_data['timestamp'] < 55800)) |
-        ((filtered_data['timestamp'] > 60100) & (filtered_data['timestamp'] < 61800))
+        ((filtered_data['timestamp'] > 60100) & (filtered_data['timestamp'] < 61800)) |
+        ((filtered_data['timestamp'] > 65000) & (filtered_data['timestamp'] < 67000))
         ]
     filtered_data = filtered_data.head(150)
-    ABSCHA = 2.3009017900425004  # 计算出的绝对差
+    ABSCHA = 3.271540200383761  # 计算出的绝对差
     # 计算误差
     filtered_data['error'] = filtered_data['distance_3_to_1'] - filtered_data['Statistic.dist1'] - ABSCHA
     return filtered_data
 
-
 if __name__ == '__main__':
-    filtered_data = getPlotData()
+    filtered_data=getPlotData()
     average_error = filtered_data['error'].mean()
     std_error = filtered_data['error'].std()
     print(f"Average Error: {average_error}")

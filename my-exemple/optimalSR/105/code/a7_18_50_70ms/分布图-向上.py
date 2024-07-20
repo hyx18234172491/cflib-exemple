@@ -17,21 +17,25 @@ def getPlotData():
         (filtered_data['Statistic.compute1num1'] != filtered_data['Statistic.compute1num1'].shift())
         ]
     filtered_data = filtered_data[
-        ((filtered_data['timestamp'] > 24000) & (filtered_data['timestamp'] < 25500)) |
-        ((filtered_data['timestamp'] > 30000) & (filtered_data['timestamp'] < 31500)) |
-        ((filtered_data['timestamp'] > 41900) & (filtered_data['timestamp'] < 43800)) |
-        ((filtered_data['timestamp'] > 54000) & (filtered_data['timestamp'] < 55800)) |
-        ((filtered_data['timestamp'] > 60100) & (filtered_data['timestamp'] < 61800))
+        ((filtered_data['timestamp'] > 27000) & (filtered_data['timestamp'] < 28500)) |
+        ((filtered_data['timestamp'] > 33000) & (filtered_data['timestamp'] < 34700)) |
+        ((filtered_data['timestamp'] > 39100) & (filtered_data['timestamp'] < 40500)) |
+        ((filtered_data['timestamp'] > 45000) & (filtered_data['timestamp'] < 46500)) |
+        ((filtered_data['timestamp'] > 51000) & (filtered_data['timestamp'] < 52500)) |
+        ((filtered_data['timestamp'] > 57100) & (filtered_data['timestamp'] < 58600))
         ]
     filtered_data = filtered_data.head(150)
-    ABSCHA = 2.3009017900425004  # 计算出的绝对差
+    ABSCHA = 3.271540200383761  # 计算出的绝对差
     # 计算误差
-    filtered_data['error'] = filtered_data['distance_3_to_1'] - filtered_data['Statistic.dist1'] - ABSCHA
+    filtered_data['error'] = filtered_data['distance_3_to_1'] - filtered_data['Statistic.dist1']
+    # 筛选误差小于20的数据
+    # filtered_data = filtered_data[filtered_data['error'].abs() < 20]
+    filtered_data['error'] = filtered_data['error'] - ABSCHA
     return filtered_data
-
 
 if __name__ == '__main__':
     filtered_data = getPlotData()
+
     average_error = filtered_data['error'].mean()
     std_error = filtered_data['error'].std()
     print(f"Average Error: {average_error}")
@@ -40,7 +44,7 @@ if __name__ == '__main__':
     # 绘制误差分布
     plt.figure(figsize=(10, 6))
     sns.histplot(filtered_data['error'], kde=True, color="blue", binwidth=1)  # binwidth根据误差值的范围调整
-    plt.title('Error Distribution')
+    plt.title('Error Distribution 50-70 moving away')
     plt.xlabel('Error')
     plt.ylabel('Frequency')
 
@@ -51,7 +55,7 @@ if __name__ == '__main__':
     # plt.axvline(x=-std_error, color='green', linestyle='-.')
 
     # 添加文本标注
-    plt.text(-5, 5, f'$\mu={average_error:.2f}$\n$\sigma={std_error:.3f}$', bbox=dict(facecolor='white', alpha=0.5),
+    plt.text(1, 5, f'$\mu={average_error:.2f}$\n$\sigma={std_error:.3f}$', bbox=dict(facecolor='white', alpha=0.5),
              fontsize=25)
 
     plt.show()

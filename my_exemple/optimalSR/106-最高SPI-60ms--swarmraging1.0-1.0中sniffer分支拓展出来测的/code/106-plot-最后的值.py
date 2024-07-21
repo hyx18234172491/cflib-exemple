@@ -24,6 +24,9 @@ def process_data(df):
 
     # Retrieve the last row of the dataframe
     last_row = df_cleaned.iloc[-1]
+    print('收包次数：', last_row['Statistic.recvNum4'])
+    print('测距次数：', last_row['Statistic.compute1num4'])
+    print('---')
     return last_row['recvNum4_ratio'], last_row['computeNum4_ratio']
 
 def load_data(file_paths):

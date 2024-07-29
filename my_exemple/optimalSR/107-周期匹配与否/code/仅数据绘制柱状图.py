@@ -21,11 +21,11 @@ for bars in [bars1, bars2]:
 
 # 自定义 x 轴为字符串
 labels = ['20', '30', '40', '50', '60', '70']  # 转换为字符串，按照期望顺序
-plt.xlabel('Period(ms)', fontsize=20)
-plt.ylabel('Ranging Rate', fontsize=20)
+plt.xlabel('Period(ms)', fontsize=24)
+plt.ylabel('Ranging Rate', fontsize=24)
 plt.xticks(x_positions, labels, fontsize=18)  # 使用字符串标签
 plt.yticks(fontsize=18)
 plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.13), ncol=2, fontsize=18)  # Legend placed at the top center
-
+plt.subplots_adjust(left=0.12, right=0.99, top=0.999, bottom=0.13)
 # 显示图表
 plt.show()

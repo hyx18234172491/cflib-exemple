@@ -1,9 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import warnings
 
-# 忽略所有警告
-warnings.filterwarnings("ignore")
 # File paths for both old and new data
 old_file_paths = [
     "../data/104-TrRrBuffer3-lastTimeStamp3-5loss-5loss-50ms-100s.csv",
@@ -29,21 +26,12 @@ def process_files(file_paths, new=False):
 
     for path in file_paths:
         data = pd.read_csv(path)
-        # if not new:
-        first_row = data.iloc[0]
-        data -= first_row
+        if not new:
+            first_row = data.iloc[0]
+            data -= first_row
         data['timestamp'] = data['timestamp']
         filtered_data = data[data['recvSeq2'] != 0]
         filtered_data['ratio1'] = filtered_data['compute1num2'] / filtered_data['recvSeq2']
-        print('----')
-        print(path)
-        print('收包率：',data.iloc[-1]['recvNum2']/data.iloc[-1]['recvSeq2'])
-        print('收包次数：',data.iloc[-1]['recvNum2'])
-        print('compute1次数：',data.iloc[-1]['compute1num2'])
-        print('ranging总次数:',data.iloc[-1]['compute1num2']+data.iloc[-1]['compute2num2'])
-        print('compute1比率:',data.iloc[-1]['compute1num2']/data.iloc[-1]['recvSeq2'])
-        print('ranging总比率:',(data.iloc[-1]['compute1num2']+data.iloc[-1]['compute2num2'])/data.iloc[-1]['recvSeq2'])
-
         if not new:
             filtered_data['ratio2'] = (filtered_data['compute1num2'] + filtered_data['compute2num2']) / filtered_data['recvSeq2']
             medians.append([filtered_data['ratio1'].median(), filtered_data['ratio2'].median()])
@@ -54,7 +42,43 @@ def process_files(file_paths, new=False):
     return processed_data, medians
 
 # Process old and new data
-# old_data, old_medians = process_files(old_file_paths)
+old_data, old_medians = process_files(old_file_paths)
 new_data, new_medians = process_files(new_file_paths, new=True)
 
+# Extract packet loss rates from file names
+packet_loss_rates = [int(path.split('-')[3].replace('loss', '')) for path in old_file_paths]
 
+# Plotting
+fig, ax = plt.subplots(figsize=(9, 6))
+width = 0.26
+space_between_groups = 0.15
+
+# Adjust the positions for the bars
+positions3 = [i * (3 * width + space_between_groups) for i in range(len(packet_loss_rates))]  # New data at the beginning
+positions1 = [p + width for p in positions3]  # Old data, first metric
+positions2 = [p + width for p in positions1]  # Old data, second metric
+
+
+# Plot the new bars (new data) at the beginning
+bars3 = ax.bar(positions3, new_medians, width=width, label='Swarm ranging 1.0')
+
+# Plot the original bars (previous data)
+bars1 = ax.bar(positions1, [m[0] for m in old_medians], width=width, label='Swarm ranging 1.0 with 3 lastTxTimestamp')
+bars2 = ax.bar(positions2, [m[1] for m in old_medians], width=width, label='Swarm ranging 2.0')
+
+# Add value annotations to all bars
+for bars in [bars3, bars1, bars2]:
+    for bar in bars:
+        height = bar.get_height()
+        ax.annotate(f'{height:.2f}', xy=(bar.get_x() + bar.get_width() / 2, height), xytext=(0, 3), textcoords="offset points", ha='center', va='bottom')
+
+# Adjust x-ticks to be in the middle of the grouped bars and set labels
+ax.set_xticks([p + width for p in positions3])
+ax.set_xticklabels([f"{rate}%" for rate in packet_loss_rates])
+
+# ax.set_title('Median Computed Ratios by Packet Loss Rate (Updated Positions)')
+ax.set_xlabel('Packet Loss Rate',fontsize=16)
+ax.set_ylabel('Ranging Rate',fontsize=16)
+ax.legend()
+
+plt.show()

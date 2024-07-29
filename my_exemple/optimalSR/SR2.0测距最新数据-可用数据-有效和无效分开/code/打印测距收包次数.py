@@ -6,11 +6,15 @@ import warnings
 warnings.filterwarnings("ignore")
 # File paths for both old and new data
 old_file_paths = [
-    "../data/5架+30+rand(61).csv",
-    "../data/10架+30+rand(61).csv",
-    "../data/15架+30+rand(61).csv",
-    "../data/20架+30+rand(61).csv",
-    "../data/25架+30+rand(61).csv",
+    "../data/2架60ms-5%丢包.csv",
+    "../data/2架60ms-10%丢包.csv",
+    "../data/2架60ms-15%丢包.csv",
+    "../data/2架60ms-20%丢包.csv",
+    "../data/2架60ms-25%丢包.csv",
+    "../data/2架60ms-30%丢包.csv",
+    "../data/一架20ms-一架70ms.csv",
+    "../data/一架30ms-一架70ms.csv",
+    "../data/一架40ms-一架70ms.csv",
    ]
 new_file_paths = [
     "../data/SR1-20架30+rand(61).csv",
@@ -41,6 +45,7 @@ def process_files(file_paths, new=False):
             # print('compute2次数：', data.iloc[-1]['compute2num1'])
             # print('compute3次数：', data.iloc[-1]['compute3num1'])
             print('ranging总次数(1,3):', data.iloc[-1]['compute1num1'] + data.iloc[-1]['compute3num1'])
+            print('ranging总次数(1,2):', data.iloc[-1]['compute1num1'] + data.iloc[-1]['compute2num1'])
             # print('compute1比率:', data.iloc[-1]['compute1num1'] / data.iloc[-1]['recvSeq1'])
             print('ranging总比率(1,2):',
                   (data.iloc[-1]['compute1num1'] + data.iloc[-1]['compute2num1']) / data.iloc[-1]['recvSeq1'])

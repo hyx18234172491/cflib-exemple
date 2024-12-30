@@ -68,7 +68,7 @@ import warnings
 warnings.filterwarnings("ignore")
 # Change uris and sequences according to your setup
 
-URI1 = 'radio://0/80/2M/42E7E7E7E7'  # uwb1  50ms周期，启用测试周期不匹配代码
+URI1 = 'radio://0/80/2M/27E7E7E7E7'  # uwb1  50ms周期，启用测试周期不匹配代码
 URI2 = 'radio://0/80/2M/69E7E7E7E7'  # uwb2  100ms周期
 # URI3 = 'radio://0/80/2M/53E7E7E7E7'  #
 # URI4 = 'radio://0/80/2M/58E7E7E7E7'  #
@@ -154,8 +154,8 @@ def land(cf, position):
 
 
 def run_sequence(scf, sequence):
-    # if (int(sequence[0][0]) == 0):
-    #     return
+    if (int(sequence[0][0]) == 0):
+        return
     print('run sequencce')
     with MotionCommander(scf, default_height=DEFAULT_HEIGHT) as mc:
         try:
@@ -265,7 +265,7 @@ if __name__ == '__main__':
                 print('start run_sequencce')
                 swarm.parallel(run_sequence, args_dict=seq_args)
             else:
-                time.sleep(10)
+                time.sleep(60)
         print("log data")
         log_data.to_csv('exp2.csv')
     except:

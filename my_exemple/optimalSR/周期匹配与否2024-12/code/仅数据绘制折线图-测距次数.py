@@ -7,22 +7,22 @@ y_ranging_all_fix_SRV2 = [9998, 4996, 3303, 2475, 1977, 1651, 1413, 1233, 1096, 
 y_ranging_valid_fix_SRV2 = [1987, 1994, 1961, 1967, 1969, 1647, 1408, 1231, 1095, 988][::-1]
 y_ranging_fix_SRV1 = [994, 994, 978, 981, 987, 987, 987, 987, 991, 986][::-1]
 
-x_label = x_label[:-2:]
-y_recv_fix = y_recv_fix[:-2:]
-y_ranging_all_fix_SRV2 = y_ranging_all_fix_SRV2[:-2:]
-y_ranging_valid_fix_SRV2 = y_ranging_valid_fix_SRV2[:-2:]
-y_ranging_fix_SRV1 = y_ranging_fix_SRV1[:-2:]
+x_label = x_label[:-1:]
+y_recv_fix = y_recv_fix[:-1:]
+y_ranging_all_fix_SRV2 = y_ranging_all_fix_SRV2[:-1:]
+y_ranging_valid_fix_SRV2 = y_ranging_valid_fix_SRV2[:-1:]
+y_ranging_fix_SRV1 = y_ranging_fix_SRV1[:-1:]
 
 y_rangingRate_SR1 = [y_ranging_fix_SRV1[i] / y_recv_fix[i] for i in range(0, len(x_label))]
 y_rangingRate_SR2 = [y_ranging_valid_fix_SRV2[i] / y_recv_fix[i] for i in range(0, len(x_label))]
 fig, ax1 = plt.subplots(figsize=(8, 6))
 
 ax1.plot(x_label, y_recv_fix, label='Reception count',
-         marker='^', linewidth=2, markersize=10)
+         marker='o', linewidth=2, markersize=10)
 ax1.plot(x_label, y_ranging_fix_SRV1, label='Ranging count(SRv1)',
-         marker='d', linewidth=2, markersize=10)
+         marker='s', linewidth=2, markersize=10)
 ax1.plot(x_label, y_ranging_valid_fix_SRV2, label='Ranging count(SRv2)',
-         marker='d', linewidth=2, markersize=10)
+         marker='*', linewidth=2, markersize=10)
 
 # ax1.plot(x_label, y_recv_fix, label='Reception count',
 #          linestyle='-.', marker='^', linewidth=2, markersize=10)
@@ -46,7 +46,7 @@ ax1.axvline(x=50, color='r', linestyle='--', label='M=2')
 plt.xlabel('Period(ms)', fontsize=24)
 plt.ylabel('Reception(Ranging) count', fontsize=24)
 # plt.title('Packet and Ranging Numbers at Different Distances (Enhanced Markers)')
-plt.legend(fontsize=22)
+plt.legend(fontsize=20)
 plt.xticks(fontsize=18)
 plt.yticks(fontsize=18)
 plt.subplots_adjust(left=0.145, right=0.99, top=0.99, bottom=0.12)

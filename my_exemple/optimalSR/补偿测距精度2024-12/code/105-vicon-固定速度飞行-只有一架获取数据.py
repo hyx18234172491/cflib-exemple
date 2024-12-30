@@ -68,7 +68,7 @@ import warnings
 warnings.filterwarnings("ignore")
 # Change uris and sequences according to your setup
 
-URI1 = 'radio://0/80/2M/42E7E7E7E7'  # uwb1  50ms周期，启用测试周期不匹配代码
+URI1 = 'radio://0/80/2M/27E7E7E7E7'  # uwb1  50ms周期，启用测试周期不匹配代码
 URI2 = 'radio://0/80/2M/69E7E7E7E7'  # uwb2  100ms周期
 # URI3 = 'radio://0/80/2M/53E7E7E7E7'  #
 # URI4 = 'radio://0/80/2M/58E7E7E7E7'  #
@@ -89,7 +89,7 @@ list0 = [
     [0, 0, flight_duration_sum]
 ]
 
-list1 = [['1']]
+list1 = [['0']]
 for i in range(int(flight_duration_sum / stage_duration) + 1):
     if i % 4 == 0:
         list1.append([1, 0, stage_duration])  # vx,vy,stage_duration
@@ -101,11 +101,10 @@ for i in range(int(flight_duration_sum / stage_duration) + 1):
         list1.append([0, 0, stage_duration])
 
 # sequences = [list0, list1]
-sequences = [list0, list1]
+sequences = [list1]
 
 seq_args = {
-    URI1: [sequences[0]],
-    URI2: [sequences[1]],
+    URI2: [sequences[0]],
     # URI3: [sequences[2]],
     # URI4: [sequences[3]],
     # URI5: [sequences[4]],
@@ -117,7 +116,6 @@ seq_args = {
 
 # List of URIs, comment the one you do not want to fly
 uris = {
-    URI1,
     URI2,
     # URI3,
     # URI4,
@@ -181,8 +179,8 @@ def logCallback(timestamp, data, logconf):
     temp = {}
     temp['timestamp'] = timestamp
     temp['logNumber'] = logconf.name
-    print(logconf.name)
-    print(data)
+    # print(logconf.name)
+    # print(data)
     for log_var_name, log_var_type in log_var[int(logconf.name)].items():
         temp[log_var_name] = data[log_var_name]
     if ENABLE_MOTION_CAPTURE:
@@ -198,7 +196,7 @@ def logCallback(timestamp, data, logconf):
             drone3_x, drone3_y, drone3_z = temp.get('UAV3x', 0), temp.get('UAV3y', 0), temp.get('UAV3z', 0)
             distance_3_to_1 = calculate_distance(drone3_x, drone3_y, drone3_z, drone1_x, drone1_y, drone1_z)
             temp['distance_3_to_1'] = distance_3_to_1
-            print(temp['distance_3_to_1'])
+            # print(temp['distance_3_to_1'])
         except:
             pass
 
@@ -208,6 +206,7 @@ def logCallback(timestamp, data, logconf):
 
 def addLogConfig(scf, sequence):
     global log_var, PERIOD
+    print(sequence)
     logconf = LogConfig(name=str(sequence[0][0]), period_in_ms=PERIOD)
 
     for log_var_name, log_var_type in log_var[int(sequence[0][0])].items():
@@ -222,13 +221,7 @@ if __name__ == '__main__':
     ENABLE_FLY_TASK = False
     PERIOD = 10
 
-    log_var = [{
-        'Statistic.recvSeq2': 'uint16_t',
-        'Statistic.recvNum2': 'uint16_t',
-        'Statistic.compute1num2': 'uint16_t',
-        'Statistic.compute2num2': 'uint16_t',
-        'Statistic.dist2': 'int16_t',
-    },
+    log_var = [
         {
             'Statistic.recvSeq1': 'uint16_t',
             'Statistic.recvNum1': 'uint16_t',

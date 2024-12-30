@@ -28,7 +28,7 @@ for bars in [bars1, bars2]:
         ax.text(bar.get_x() + bar.get_width()/2-0.2, yval, f'{yval:.2f}', ha='center', va='bottom', fontsize=16)
 
 # 图例添加所有图形的标签
-ax.legend(fontsize=20, ncol=1)
+ax.legend(fontsize=23, ncol=1)
 plt.yticks(fontsize=18)
 plt.xticks(fontsize=18)
 plt.subplots_adjust(left=0.12, right=0.99, top=0.999, bottom=0.13)

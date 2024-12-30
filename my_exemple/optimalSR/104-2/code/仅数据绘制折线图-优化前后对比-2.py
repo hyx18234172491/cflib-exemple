@@ -13,17 +13,17 @@ y_ranging_count_SR1 = [1461, 1244, 1038, 870, 754, 606]
 fig, ax = plt.subplots(figsize=(8, 6))
 
 # 绘制折线图
-line1, = ax.plot(x_label, y_recv_count_SR2, linewidth=2, label='Receive', marker='o')
+line1, = ax.plot(x_label, y_recv_count_SR2, linewidth=2, label='Reception', marker='o')
 line2, = ax.plot(x_label, y_ranging_count_SR1, linewidth=2,label='SRv1 Ranging', marker='s')
 # line3, = ax.plot(x_label, y_ranging_count_SR2_optimal1, linewidth=2,label='SR2.0 without downward Ranging', marker='s')
 line4, = ax.plot(x_label, y_ranging_count_SR2_optimal2, linewidth=2,label='SRv2 Ranging', marker='s')
 
 ax.set_xlabel('Loss level(%)', fontsize=24)
-ax.set_ylabel('Receive(Ranging) count', fontsize=24)
+ax.set_ylabel('Reception(Ranging) count', fontsize=24)
 ax.tick_params(axis='both', labelsize=18)
 plt.subplots_adjust(left=0.14, right=0.99, top=0.999, bottom=0.13)
 # 图例添加所有图形的标签
-ax.legend(fontsize=20)
+ax.legend(fontsize=24)
 plt.grid(True)
 plt.xticks(fontsize=18)
 plt.yticks(fontsize=18)

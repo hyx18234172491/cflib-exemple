@@ -33,7 +33,7 @@ error_datasets = [
 ]
 
 # 创建子图
-fig, axes = plt.subplots(2, 3, figsize=(10, 6))
+fig, axes = plt.subplots(2, 3, figsize=(10, 5))
 # 绘制每个子图
 for i, ax in enumerate(axes.flat):
     if i < len(error_datasets):
@@ -41,7 +41,7 @@ for i, ax in enumerate(axes.flat):
         mean = error_datasets[i]['error'].mean()
         std = error_datasets[i]['error'].std()
 
-        ax.text(0.5, 0.95, f'$\mu={mean:.2f}$\n$\sigma={std:.2f}$',
+        ax.text(0.5, 0.33, f'$\mu={mean:.2f}$\n$\sigma={std:.2f}$',
                 verticalalignment='top', horizontalalignment='center',
                 transform=ax.transAxes, fontsize=20, bbox=dict(facecolor='white', alpha=0.8))
         # # 获取当前的x轴范围
@@ -51,6 +51,7 @@ for i, ax in enumerate(axes.flat):
         # ax.set_xticks(x_ticks)
         ax.set_xlabel('')  # 移除横坐标标签
         ax.set_ylabel('')  # 移除纵坐标标签
+        ax.axvline(x=0, color='red', linestyle='--')
     else:
         ax.axis('off')  # 如果没有更多的数据集，隐藏多余的子图
 
@@ -59,7 +60,8 @@ fig.text(0.23, 0.94, '50ms-70ms', ha='center', fontsize=20)
 fig.text(0.54, 0.94, '40ms-70ms', ha='center', fontsize=20)
 fig.text(0.86, 0.94, '30ms-70ms', ha='center', fontsize=20)
 
-fig.text(0.025, 0.70, 'Moving away', va='center', rotation='vertical', fontsize=20)
-fig.text(0.025, 0.26, 'Moving towards', va='center', rotation='vertical', fontsize=20)
-plt.tight_layout(rect=[0.05, 0, 1, 0.95])
+fig.text(0.007, 0.75, 'Moving away', va='center', rotation='vertical', fontsize=19)
+fig.text(0.007, 0.26, 'Moving towards', va='center', rotation='vertical', fontsize=19)
+# plt.tight_layout(rect=[0.05, 0, 1, 0.95])
+plt.subplots_adjust(left=0.06, right=0.99, top=0.93, bottom=0.05)
 plt.show()

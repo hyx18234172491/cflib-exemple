@@ -68,8 +68,8 @@ import warnings
 warnings.filterwarnings("ignore")
 # Change uris and sequences according to your setup
 
-URI1 = 'radio://0/80/2M/33E7E7E7E7'  # uwb2
-URI2 = 'radio://0/80/2M/40E7E7E7E7'  # uwb1
+URI1 = 'radio://0/80/2M/9E7E7E7E7'  # uwb2
+URI2 = 'radio://0/80/2M/59E7E7E7E7'  # uwb1
 # URI3 = 'radio://0/80/2M/53E7E7E7E7'  #
 # URI4 = 'radio://0/80/2M/58E7E7E7E7'  #
 # URI5 = 'radio://0/80/2M/1147E7E7E7'  #
@@ -154,8 +154,8 @@ def land(cf, position):
 
 
 def run_sequence(scf, sequence):
-    if (int(sequence[0][0]) == 0):
-        return
+    # if (int(sequence[0][0]) == 0):
+    #     return
     print('run sequencce')
     with MotionCommander(scf, default_height=DEFAULT_HEIGHT) as mc:
         try:
@@ -218,9 +218,9 @@ def addLogConfig(scf, sequence):
 
 
 if __name__ == '__main__':
-    ENABLE_MOTION_CAPTURE = True
+    ENABLE_MOTION_CAPTURE = False
     ENABLE_FLY_TASK = True
-    PERIOD = 100
+    PERIOD = 10
 
     log_var = [{
         'Statistic.recvSeq3': 'uint16_t',
@@ -260,7 +260,7 @@ if __name__ == '__main__':
             print('Waiting for parameters to be downloaded...')
             swarm.parallel(wait_for_param_download)
 
-            swarm.parallel(addLogConfig, args_dict=seq_args)
+            # swarm.parallel(addLogConfig, args_dict=seq_args)
             if ENABLE_FLY_TASK:
                 print('start run_sequencce')
                 swarm.parallel(run_sequence, args_dict=seq_args)

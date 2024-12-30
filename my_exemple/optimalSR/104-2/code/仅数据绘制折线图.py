@@ -13,11 +13,11 @@ line1, = ax.plot(x_label, y_recv_count, 'r-',linewidth=2, label='Receive Count',
 line2, = ax.plot(x_label, y_recv_ranging, 'g-', linewidth=2,label='Ranging Count', marker='s')
 
 ax.set_xlabel('Loss level(%)', fontsize=24)
-ax.set_ylabel('Receive(Ranging) count', fontsize=24)
+ax.set_ylabel('Reception(Ranging) count', fontsize=24)
 ax.tick_params(axis='both', labelsize=18)
 
 # 图例添加所有图形的标签
-ax.legend(fontsize=20)
+ax.legend(fontsize=24)
 plt.grid(True)
 plt.xticks(fontsize=18)
 plt.yticks(fontsize=18)

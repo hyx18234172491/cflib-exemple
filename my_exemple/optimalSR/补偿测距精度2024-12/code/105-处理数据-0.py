@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Load the data
-data_path = "../data/exp2(35).csv"
+data_path = "../data-backup-代码有S4_NO的问题/exp2(35).csv"
 data = pd.read_csv(data_path)
 
 # # Calculate Euclidean distance between UAV1 and UAV2

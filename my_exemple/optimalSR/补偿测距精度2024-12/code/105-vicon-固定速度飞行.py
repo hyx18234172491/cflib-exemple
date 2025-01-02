@@ -220,7 +220,7 @@ def addLogConfig(scf, sequence):
 if __name__ == '__main__':
     ENABLE_MOTION_CAPTURE = False
     ENABLE_FLY_TASK = False
-    PERIOD = 10
+    PERIOD = 50
 
     log_var = [{
         'Statistic.recvSeq2': 'uint16_t',
@@ -265,7 +265,7 @@ if __name__ == '__main__':
                 print('start run_sequencce')
                 swarm.parallel(run_sequence, args_dict=seq_args)
             else:
-                time.sleep(60)
+                time.sleep(30)
         print("log data")
         log_data.to_csv('exp2.csv')
     except:
